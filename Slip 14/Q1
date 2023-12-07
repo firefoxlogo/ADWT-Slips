@@ -1,0 +1,96 @@
+Q:27: Design an HTML form to take the information of a customer for booking a
+travel plan consisting of fields such as name, address, contact no., gender,
+preferred season(Checkboxes), location type(to be selected from a list) etc.
+You should provide button to submit as well as reset the form contents
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Travel Plan Booking</title>
+	<style>
+    	body {
+        	font-family: Arial, sans-serif;
+        	margin: 20px;
+        	padding: 20px;
+        	background-color: #f0f0f0;
+    	}
+
+    	form {
+        	max-width: 600px;
+        	margin: auto;
+    	}
+
+    	label {
+        	display: block;
+        	margin-bottom: 8px;
+    	}
+
+    	input, select {
+        	width: 100%;
+        	padding: 8px;
+        	margin-bottom: 12px;
+        	box-sizing: border-box;
+    	}
+
+    	button {
+        	padding: 10px 20px;
+        	background-color: #4CAF50;
+        	color: #fff;
+        	border: none;
+        	cursor: pointer;
+    	}
+
+    	button[type="reset"] {
+        	background-color: #f44336;
+    	}
+
+    	button:hover {
+        	background-color: #45a049;
+    	}
+
+    	button[type="reset"]:hover {
+        	background-color: #d32f2f;
+    	}
+	</style>
+</head>
+<body>
+
+	<h2>Travel Plan Booking</h2>
+
+	<form>
+    	<label for="name">Name:</label>
+    	<input type="text" id="name" name="name" required>
+
+    	<label for="address">Address:</label>
+    	<textarea id="address" name="address" rows="4" required></textarea>
+
+    	<label for="contact">Contact Number:</label>
+    	<input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="10-digit number" required>
+
+    	<label>Gender:</label>
+    	<label><input type="radio" name="gender" value="male" required> Male</label>
+    	<label><input type="radio" name="gender" value="female" required> Female</label>
+    	<label><input type="radio" name="gender" value="other" required> Other</label>
+
+    	<label>Preferred Season:</label>
+    	<label><input type="checkbox" name="season" value="spring"> Spring</label>
+    	<label><input type="checkbox" name="season" value="summer"> Summer</label>
+    	<label><input type="checkbox" name="season" value="autumn"> Autumn</label>
+    	<label><input type="checkbox" name="season" value="winter"> Winter</label>
+
+    	<label for="locationType">Location Type:</label>
+    	<select id="locationType" name="locationType" required>
+        	<option value="" disabled selected>Select location type</option>
+        	<option value="beach">Beach</option>
+        	<option value="mountain">Mountain</option>
+        	<option value="city">City</option>
+        	<option value="countryside">Countryside</option>
+    	</select>
+
+    	<button type="submit">Submit</button>
+    	<button type="reset">Reset</button>
+	</form>
+
+</body>
+</html>
