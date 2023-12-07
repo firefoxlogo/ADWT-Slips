@@ -1,0 +1,59 @@
+Q:7: Write a bootstrap program for the following
+“The .table class adds basic styling (light padding and only horizontal
+dividers) to a table” The table can have the first name, last name, and email
+id as columns
+Solution
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Add Bootstrap CSS link -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<title>Bootstrap Table Example</title>
+</head>
+<body>
+
+	<div class="container mt-5">
+
+    	<h2 class="text-center mb-4">Bootstrap Table Example</h2>
+
+    	<!-- Bootstrap Table -->
+    	<table class="table">
+        	<thead>
+            	<tr>
+                	<th scope="col">First Name</th>
+                	<th scope="col">Last Name</th>
+                	<th scope="col">Email ID</th>
+            	</tr>
+        	</thead>
+        	<tbody>
+            	<!-- Sample Data Rows -->
+            	<tr>
+                	<td>John</td>
+                	<td>Doe</td>
+                	<td>john.doe@example.com</td>
+            	</tr>
+            	<tr>
+                	<td>Jane</td>
+                	<td>Smith</td>
+                	<td>jane.smith@example.com</td>
+            	</tr>
+            	<tr>
+                	<td>Mike</td>
+                	<td>Johnson</td>
+                	<td>mike.johnson@example.com</td>
+            	</tr>
+            	<!-- Add more rows as needed -->
+        	</tbody>
+    	</table>
+
+	</div>
+
+	<!-- Add Bootstrap JS and Popper.js scripts (required for Bootstrap) -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
