@@ -5,21 +5,23 @@ Collection: Property
 ○	Area
 ○	Rate
 ○	OwnerID (foreign key referencing Owner collection)
-{ "PropertyID": 1, "Area": "Nashik", "Rate": 120000, "OwnerID": 101 }
-{ "PropertyID": 2, "Area": "Mumbai", "Rate": 90000, "OwnerID": 102 }
-{ "PropertyID": 3, "Area": "Pune", "Rate": 110000, "OwnerID": 103 }
-{ "PropertyID": 4, "Area": "Nagpur", "Rate": 95000, "OwnerID": 104 }
-{ "PropertyID": 5, "Area": "Nashik", "Rate": 80000, "OwnerID": 105 }
+db.Property.insert([{ "PropertyID": 1, "Area": "Nashik", "Rate": 120000, "OwnerID": 101 }])
+db.Property.insert([{ "PropertyID": 2, "Area": "Mumbai", "Rate": 90000, "OwnerID": 102 }])
+db.Property.insert([{ "PropertyID": 3, "Area": "Pune", "Rate": 110000, "OwnerID": 103 }])
+db.Property.insert([{ "PropertyID": 4, "Area": "Nagpur", "Rate": 95000, "OwnerID": 104 }])
+db.Property.insert([{ "PropertyID": 5, "Area": "Nashik", "Rate": 80000, "OwnerID": 105 }])
+
+
 Collection: Owner
 
 ●	Attributes:
 ○	OwnerID (unique identifier)
 ○	OwnerName
-{ "OwnerID": 101, "OwnerName": "Mr. Patil" }
-{ "OwnerID": 102, "OwnerName": "Mrs. Deshmukh" }
-{ "OwnerID": 103, "OwnerName": "Mr. Sharma" }
-{ "OwnerID": 104, "OwnerName": "Ms. Gupta" }
-{ "OwnerID": 105, "OwnerName": "Mr. Khanna" }
+db.Owner.insert([{ "OwnerID": 101, "OwnerName": "Mr. Patil" }])
+db.Owner.insert([{ "OwnerID": 102, "OwnerName": "Mrs. Deshmukh" }])
+db.Owner.insert([{ "OwnerID": 103, "OwnerName": "Mr. Sharma" }])
+db.Owner.insert([{ "OwnerID": 104, "OwnerName": "Ms. Gupta" }])
+db.Owner.insert([{ "OwnerID": 105, "OwnerName": "Mr. Khanna" }])
 
 
 Queries:
