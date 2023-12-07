@@ -1,0 +1,79 @@
+Q:37: Create a web page in which show a button with a text “start download” ,
+when click in start download a progress bar must be initialized with value 0
+then increase by 10 in each second, change the color of progress bar after
+every three seconds..
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Progress Bar Example</title>
+
+	<style>
+    	#progressBar {
+        	width: 100%;
+        	height: 30px;
+        	background-color: #ddd;
+        	position: relative;
+        	margin-top: 20px;
+    	}
+
+    	#progressFill {
+        	height: 100%;
+        	background-color: #4CAF50;
+        	width: 0;
+        	transition: width 1s ease;
+    	}
+
+    	#startButton {
+        	margin-top: 20px;
+        	padding: 10px;
+        	font-size: 16px;
+        	cursor: pointer;
+    	}
+	</style>
+</head>
+<body>
+
+	<button id="startButton" onclick="startDownload()">Start Download</button>
+	<div id="progressBar">
+    	<div id="progressFill"></div>
+	</div>
+
+	<script>
+    	function startDownload() {
+        	var progressBar = document.getElementById('progressFill');
+        	var startButton = document.getElementById('startButton');
+
+        	startButton.disabled = true;
+
+        	var interval = setInterval(function () {
+            	var currentValue = parseInt(progressBar.style.width) || 0;
+           	 
+            	if (currentValue < 100) {
+                	progressBar.style.width = (currentValue + 10) + '%';
+            	} else {
+                	clearInterval(interval);
+                	startButton.disabled = false;
+                	progressBar.style.width = '0%';
+            	}
+
+            	// Change color after every three seconds
+            	if (currentValue % 30 === 0) {
+                	progressBar.style.backgroundColor = getRandomColor();
+            	}
+        	}, 1000);
+    	}
+
+    	function getRandomColor() {
+        	var letters = '0123456789ABCDEF';
+        	var color = '#';
+        	for (var i = 0; i < 6; i++) {
+            	color += letters[Math.floor(Math.random() * 16)];
+        	}
+        	return color;
+    	}
+	</script>
+
+</body>
+</html>
