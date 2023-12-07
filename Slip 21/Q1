@@ -1,0 +1,62 @@
+Q:41: Write a css3 script for the student registration form with appropriate message
+display also high light compulsory fields in a different color
+/* Styles for the Student Registration Form */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+}
+
+.container {
+	width: 50%;
+	margin: auto;
+	background: #fff;
+	padding: 20px;
+	margin-top: 50px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+	text-align: center;
+	color: #333;
+}
+
+form {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+label {
+	display: block;
+	margin: 10px 0 5px;
+}
+
+input,
+select {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+/* Highlight compulsory fields in a different color */
+input[required],
+select[required] {
+	border: 2px solid #e44d26; /* Red color for highlighting */
+}
+
+/* Styles for displaying messages */
+.message {
+	margin: 10px 0;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.success {
+	background-color: #4CAF50; /* Green color for success */
+	color: #fff;
+}
+
+.error {
+	background-color: #e44d26; /* Red color for error */
+	color: #fff;
+}
