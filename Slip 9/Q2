@@ -1,0 +1,63 @@
+Q:18: 1. Model the following Customer Loan information as a documentdatabase.
+Consider Customer Loan information system where the customer can take
+many types of loans.
+2. Assume appropriate attributes and collections as per the query
+requirements [3]
+3. Insert at least 10 documents in each collection. [3]
+4. Answer the following Queries.
+a. List all customers whose name starts with 'D' character [3]
+b.List the names of customer in descending order who has taken a loan
+from Pimpri city. [3]
+c.Display customer details having maximum loan amount. [4]
+d.Update the address of customer whose name is “Mr. Patil” and
+loan_amt is greater than 100000. [4]
+Solution
+Collection: Customer
+●	Attributes:
+○	CustomerID (unique identifier)
+○	Name
+○	Address
+○	Loans (an array of loan objects)
+●	Example Documents:
+{ "CustomerID": 1, "Name": "John Doe", "Address": "123 Main St, CityA", "Loans": [
+	{ "LoanType": "Personal Loan", "LoanAmount": 50000, "City": "CityA" },
+	{ "LoanType": "Home Loan", "LoanAmount": 200000, "City": "CityB" }
+  ]
+}
+{ "CustomerID": 2, "Name": "Jane Smith", "Address": "456 Oak St, CityB", "Loans": [
+	{ "LoanType": "Car Loan", "LoanAmount": 70000, "City": "CityA" },
+	{ "LoanType": "Education Loan", "LoanAmount": 150000, "City": "CityB" }
+  ]
+}
+{ "CustomerID": 3, "Name": "Mike Johnson", "Address": "789 Pine St, CityA", "Loans": [
+	{ "LoanType": "Home Loan", "LoanAmount": 250000, "City": "CityA" }
+  ]
+}
+{ "CustomerID": 4, "Name": "Emily Brown", "Address": "101 Cedar St, CityC", "Loans": [
+	{ "LoanType": "Personal Loan", "LoanAmount": 80000, "City": "CityC" },
+	{ "LoanType": "Education Loan", "LoanAmount": 120000, "City": "CityA" }
+  ]
+}
+{ "CustomerID": 5, "Name": "Alex White", "Address": "202 Elm St, CityB", "Loans": [
+	{ "LoanType": "Car Loan", "LoanAmount": 60000, "City": "CityB" },
+	{ "LoanType": "Home Loan", "LoanAmount": 180000, "City": "CityA" }
+  ]
+}
+
+Queries:
+a. List all customers whose name starts with 'D' character:
+db.Customer.find({ "Name": { $regex: /^D/i } })
+
+b. List the names of customers in descending order who have taken a loan from Pimpri city:
+db.Customer.find({ "Loans.City": "Pimpri" }).sort({ "Name": -1 })
+
+c. Display customer details having the maximum loan amount:
+db.Customer.aggregate([
+  { $unwind: "$Loans" },
+  { $group: { _id: "$_id", CustomerID: { $first: "$CustomerID" }, Name: { $first: "$Name" }, Address: { $first: "$Address" }, maxLoanAmount: { $max: "$Loans.LoanAmount" } } },
+  { $sort: { maxLoanAmount: -1 } },
+  { $limit: 1 }
+])
+
+d. Update the address of the customer whose name is “Mr. Patil” and loan_amt is greater than 100000:
+db.Customer.updateMany({ "Name": "Mr. Patil", "Loans.LoanAmount": { $gt: 100000 } }, { $set: { "Address": "New Address" } })
