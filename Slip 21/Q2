@@ -1,0 +1,80 @@
+Q:42: Model the following Medical information as a graph model, and answer the
+following queries using Cypher.
+There are various brands of medicine like Dr. Reddy, Cipla, SunPharma etc.
+Their uses vary across different states in India. The uses of medicine is
+measuredas %, with a high use defined as >=90%, Medium Use between 50
+to 90%, and Low Use<50%. Each medicine manufactures various types of
+medicine products like Tablet, Syrup, and Powder etc.
+1. Identify the labels and relationships, along with their properties, and drawa
+high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and visualize
+your actual Graph model. [3]
+3. Answer the following queries using Cypher:
+a. List the names of different medicines considered in your graph [3]
+b. List the medicine that are highly Used in Rajasthan. [3]
+c. List the highly used tablet in Gujarat. [4]
+d. List the medicine names manufacturing “Powder” [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Brand
+■	Medicine
+■	State
+■	ProductType (e.g., Tablet, Syrup, Powder)
+○	Relationships:
+■	(Brand)-[:MANUFACTURES]->(Medicine)
+■	(Medicine)-[:HAS_USE_IN]->(State)
+■	(Medicine)-[:PRODUCES]->(ProductType)
+2.	High-Level Graph Model:
+(Brand)-[:MANUFACTURES]->(Medicine)-[:HAS_USE_IN]->(State)
+     	\
+(Medicine)-[:PRODUCES]->(ProductType)
+
+Creating Nodes and Relationships:
+// Create Brands
+CREATE (drReddy:Brand {name: 'Dr. Reddy'})
+CREATE (cipla:Brand {name: 'Cipla'})
+CREATE (sunPharma:Brand {name: 'Sun Pharma'})
+
+// Create Medicines
+CREATE (paracetamol:Medicine {name: 'Paracetamol'})
+CREATE (ibuprofen:Medicine {name: 'Ibuprofen'})
+
+// Create States
+CREATE (rajasthan:State {name: 'Rajasthan'})
+CREATE (gujarat:State {name: 'Gujarat'})
+
+// Create Product Types
+CREATE (tablet:ProductType {name: 'Tablet'})
+CREATE (syrup:ProductType {name: 'Syrup'})
+CREATE (powder:ProductType {name: 'Powder'})
+
+// Create Relationships
+CREATE (drReddy)-[:MANUFACTURES]->(paracetamol)
+CREATE (cipla)-[:MANUFACTURES]->(ibuprofen)
+CREATE (paracetamol)-[:HAS_USE_IN {percentage: 80}]->(rajasthan)
+CREATE (paracetamol)-[:PRODUCES]->(tablet)
+CREATE (ibuprofen)-[:HAS_USE_IN {percentage: 95}]->(rajasthan)
+CREATE (ibuprofen)-[:HAS_USE_IN {percentage: 70}]->(gujarat)
+CREATE (ibuprofen)-[:PRODUCES]->(syrup)
+CREATE (paracetamol)-[:PRODUCES]->(powder)
+
+Queries:
+a. List the names of different medicines considered in your graph:
+MATCH (medicine:Medicine)
+RETURN medicine.name;
+
+b. List the medicines that are highly used in Rajasthan:
+MATCH (medicine:Medicine)-[use:HAS_USE_IN]->(rajasthan:State)
+WHERE use.percentage >= 90
+RETURN medicine.name;
+
+c. List the highly used tablets in Gujarat:
+MATCH (medicine:Medicine)-[use:HAS_USE_IN]->(gujarat:State), (medicine)-[:PRODUCES]->(tablet:ProductType)
+WHERE use.percentage >= 90 AND tablet.name = 'Tablet'
+RETURN medicine.name;
+
+d. List the medicine names manufacturing “Powder”:
+MATCH (medicine:Medicine)-[:PRODUCES]->(powder:ProductType {name: 'Powder'})
+RETURN medicine.name;
