@@ -1,0 +1,74 @@
+Q:8: 1. Model the following information system as a document database.
+Consider hospitals around Nashik. Each hospital may have one or more
+specializations like Pediatric, Gynaec, Orthopedic, etc. A person can
+recommend/provide review for a hospital. A doctor can give service to one
+or more hospitals.
+2. Assume appropriate attributes and collections as per the query
+requirements. [3]
+3. Insert at least 10 documents in each collection. [3]
+4. Answer the following Queries
+a. List the names of hospitals with............ specialization. [3]
+b. List the Names of all hospital located in ....... city [3]
+c. List the names of hospitals where Dr. Deshmukh visits [4]
+d. List the names of hospitals whose rating >=4 [4]
+Solution
+Collection: Hospital
+●	Attributes:
+○	HospitalID (unique identifier)
+○	Name
+○	Specializations (an array of specializations)
+○	City
+{ "HospitalID": 1, "Name": "City Hospital", "Specializations": ["Pediatric", "Orthopedic"], "City": "Nashik" }
+{ "HospitalID": 2, "Name": "Grace Hospital", "Specializations": ["Gynaec", "Cardiology"], "City": "Nashik" }
+{ "HospitalID": 3, "Name": "Sunrise Medical Center", "Specializations": ["Orthopedic", "Neurology"], "City": "Nashik" }
+{ "HospitalID": 4, "Name": "Hope Clinic", "Specializations": ["Pediatric", "Gynaec"], "City": "Mumbai" }
+{ "HospitalID": 5, "Name": "Silver Cross Hospital", "Specializations": ["Orthopedic", "Cardiology"], "City": "Pune" }
+
+Collection: Review
+●	Attributes:
+○	ReviewID (unique identifier)
+○	HospitalID (foreign key referencing Hospital collection)
+○	PersonName
+○	Rating
+{ "ReviewID": 1, "HospitalID": 1, "PersonName": "John Doe", "Rating": 4.5 }
+{ "ReviewID": 2, "HospitalID": 2, "PersonName": "Jane Smith", "Rating": 5.0 }
+{ "ReviewID": 3, "HospitalID": 3, "PersonName": "Mike Johnson", "Rating": 4.0 }
+{ "ReviewID": 4, "HospitalID": 4, "PersonName": "Emily Brown", "Rating": 3.5 }
+{ "ReviewID": 5, "HospitalID": 5, "PersonName": "Alex White", "Rating": 4.8 }
+
+Collection: Doctor
+●	Attributes:
+○	DoctorID (unique identifier)
+○	Name
+○	Hospitals (an array of HospitalIDs)
+{ "DoctorID": 1, "Name": "Dr. Deshmukh", "Hospitals": [1, 2, 3] }
+{ "DoctorID": 2, "Name": "Dr. Patel", "Hospitals": [2, 5] }
+{ "DoctorID": 3, "Name": "Dr. Sharma", "Hospitals": [3, 4] }
+{ "DoctorID": 4, "Name": "Dr. Gupta", "Hospitals": [1, 5] }
+{ "DoctorID": 5, "Name": "Dr. Khanna", "Hospitals": [4, 5] }
+
+Queries:
+a. List the names of hospitals with a specific specialization (e.g., Orthopedic):
+db.Hospital.find({ "Specializations": "Orthopedic" }, { _id: 0, Name: 1 })
+
+b. List the names of all hospitals located in a specific city (e.g., Nashik):
+db.Hospital.find({ "City": "Nashik" }, { _id: 0, Name: 1 })
+
+c. List the names of hospitals where Dr. Deshmukh visits:
+db.Hospital.find({ "HospitalID": { $in: [1, 2, 3] } }, { _id: 0, Name: 1 })
+
+d. List the names of hospitals whose rating is greater than or equal to 4:
+db.Review.aggregate([
+  { $match: { "Rating": { $gte: 4 } } },
+  {
+	$lookup: {
+  	from: "Hospital",
+  	localField: "HospitalID",
+  	foreignField: "HospitalID",
+  	as: "HospitalInfo"
+	}
+  },
+  { $unwind: "$HospitalInfo" },
+  { $project: { _id: 0, HospitalName: "$HospitalInfo.Name" } }
+])
+
