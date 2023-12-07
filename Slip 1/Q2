@@ -1,0 +1,54 @@
+Solution
+Collection: Property
+●	Attributes:
+○	PropertyID (unique identifier)
+○	Area
+○	Rate
+○	OwnerID (foreign key referencing Owner collection)
+{ "PropertyID": 1, "Area": "Nashik", "Rate": 120000, "OwnerID": 101 }
+{ "PropertyID": 2, "Area": "Mumbai", "Rate": 90000, "OwnerID": 102 }
+{ "PropertyID": 3, "Area": "Pune", "Rate": 110000, "OwnerID": 103 }
+{ "PropertyID": 4, "Area": "Nagpur", "Rate": 95000, "OwnerID": 104 }
+{ "PropertyID": 5, "Area": "Nashik", "Rate": 80000, "OwnerID": 105 }
+Collection: Owner
+
+●	Attributes:
+○	OwnerID (unique identifier)
+○	OwnerName
+{ "OwnerID": 101, "OwnerName": "Mr. Patil" }
+{ "OwnerID": 102, "OwnerName": "Mrs. Deshmukh" }
+{ "OwnerID": 103, "OwnerName": "Mr. Sharma" }
+{ "OwnerID": 104, "OwnerName": "Ms. Gupta" }
+{ "OwnerID": 105, "OwnerName": "Mr. Khanna" }
+
+
+Queries:
+a. Display area-wise property details:
+db.Property.find({}, { _id: 0, PropertyID: 1, Area: 1, Rate: 1 })
+
+b. Display property owned by 'Mr. Patil' having the minimum rate:
+db.Property.find({ OwnerID: 101 }).sort({ Rate: 1 }).limit(1)
+
+c. Give the details of the owner whose property is at 'Nashik':
+db.Owner.aggregate([
+  {
+	$lookup: {
+  	from: "Property",
+  	localField: "OwnerID",
+  	foreignField: "OwnerID",
+  	as: "OwnedProperties"
+	}
+  },
+  {
+	$unwind: "$OwnedProperties"
+  },
+  {
+	$match: { "OwnedProperties.Area": "Nashik" }
+  },
+  {
+	$project: { _id: 0, OwnerID: 1, OwnerName: 1, "OwnedProperties.PropertyID": 1, "OwnedProperties.Rate": 1 }
+  }
+])
+
+d. Display area of property whose rate is less than 100000:
+db.Property.find({ Rate: { $lt: 100000 } }, { _id: 0, Area: 1 })
