@@ -1,0 +1,100 @@
+Q:40: Model the following nursery management information as a graph model,
+and answer the following queries using Cypher.
+Nursery content various types of plants, fertilizers and required products.
+Customer visit the nursery or use an app , purchase the plants and necessary
+products also rate and recommend the app
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the following queries using Cypher:
+a. List the types of plants from your graph model [3]
+b. List the popular flowering plants. [3]
+c. List the names of plants sold plant where qty>500 in last 2 days [4]
+d. List the names of suppliers in decreasing order who supplies
+“Creepers”. [4]
+ Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Plant
+■	Fertilizer
+■	Product
+■	Customer
+■	AppUser (User of the nursery app)
+■	Supplier
+○	Relationships:
+■	(Customer)-[:VISITS]->(Nursery)
+■	(Customer)-[:MAKES_PURCHASE]->(Product)
+■	(Customer)-[:GIVES_REVIEW]->(AppUser)
+■	(AppUser)-[:RECOMMENDS]->(Product)
+■	(Product)-[:BELONGS_TO]->(Plant)
+■	(Product)-[:BELONGS_TO]->(Fertilizer)
+■	(Supplier)-[:SUPPLIES]->(Plant)
+2.	High-Level Graph Model:
+(Customer)-[:VISITS]->(Nursery)
+      	\
+(Customer)-[:MAKES_PURCHASE]->(Product)-[:BELONGS_TO]->(Plant)
+      	\
+(Customer)-[:GIVES_REVIEW]->(AppUser)-[:RECOMMENDS]->(Product)
+      	\
+(Product)-[:BELONGS_TO]->(Fertilizer)
+      	\
+(Supplier)-[:SUPPLIES]->(Plant)
+
+Creating Nodes and Relationships:
+// Create Plants
+CREATE (rose:Plant {name: 'Rose', type: 'Flowering'})
+CREATE (tulip:Plant {name: 'Tulip', type: 'Flowering'})
+CREATE (cactus:Plant {name: 'Cactus', type: 'Succulent'})
+CREATE (creeper:Plant {name: 'Creeper', type: 'Climbing'})
+
+// Create Fertilizers
+CREATE (organic: Fertilizer {name: 'Organic Fertilizer'})
+CREATE (chemical: Fertilizer {name: 'Chemical Fertilizer'})
+
+// Create Products
+CREATE (roseFertilizer: Product {name: 'Rose Fertilizer', quantity: 600, purchaseDate: '2023-01-01'})
+CREATE (tulipFertilizer: Product {name: 'Tulip Fertilizer', quantity: 300, purchaseDate: '2023-01-02'})
+CREATE (cactusSoil: Product {name: 'Cactus Soil', quantity: 200, purchaseDate: '2023-01-02'})
+CREATE (creeperFertilizer: Product {name: 'Creeper Fertilizer', quantity: 800, purchaseDate: '2023-01-01'})
+
+// Create Customers
+CREATE (customer1: Customer {name: 'Customer1'})
+CREATE (customer2: Customer {name: 'Customer2'})
+
+// Create App Users
+CREATE (appUser1: AppUser {name: 'AppUser1'})
+CREATE (appUser2: AppUser {name: 'AppUser2'})
+
+// Create Suppliers
+CREATE (supplier1: Supplier {name: 'Supplier1'})
+CREATE (supplier2: Supplier {name: 'Supplier2'})
+
+// Create Relationships
+CREATE (customer1)-[:VISITS]->(nursery:Nursery {name: 'GreenThumb Nursery'})
+CREATE (customer1)-[:MAKES_PURCHASE]->(roseFertilizer)
+CREATE (customer1)-[:GIVES_REVIEW]->(appUser1)-[:RECOMMENDS]->(roseFertilizer)
+CREATE (roseFertilizer)-[:BELONGS_TO]->(rose)
+CREATE (roseFertilizer)-[:BELONGS_TO]->(organic)
+CREATE (supplier1)-[:SUPPLIES]->(creeper)
+
+Queries:
+a. List the types of plants from your graph model:
+MATCH (plant:Plant)
+RETURN DISTINCT plant.type;
+
+b. List the popular flowering plants:
+MATCH (plant:Plant {type: 'Flowering'})<-[:BELONGS_TO]-(:Product)
+RETURN plant.name, COUNT(*) AS popularity
+ORDER BY popularity DESC;
+
+c. List the names of plants sold where qty>500 in the last 2 days:
+MATCH (product:Product)-[:BELONGS_TO]->(plant:Plant)
+WHERE product.quantity > 500 AND product.purchaseDate >= '2023-01-01'
+RETURN DISTINCT plant.name;
+
+d. List the names of suppliers in decreasing order who supplies “Creepers”:
+MATCH (supplier:Supplier)-[:SUPPLIES]->(plant:Plant {name: 'Creeper'})
+RETURN supplier.name
+ORDER BY supplier.name DESC;
