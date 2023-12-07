@@ -1,0 +1,58 @@
+Q:14:1. Model the following information as a document database.
+A customer operates his bank account, does various transactions and get
+the banking services
+2. Assume appropriate attributes and collections as per the query
+requirements. [3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries.
+a. List names of all customers whose first name starts with a “S” [3]
+b. List all customers who has open an account on 1/1/2020 in ___branch
+[3]
+c. List the names customers where acctype=”Saving” [4]
+d. Count total no. of loan account holder of .......branch [4]
+Solution
+Collection: Customer
+●	Attributes:
+○	CustomerID (unique identifier)
+○	FirstName
+○	LastName
+○	AccountOpenDate
+○	Branch
+○	Accounts (an array of account objects)
+{ "CustomerID": 1, "FirstName": "John", "LastName": "Doe", "AccountOpenDate": "2020-01-01", "Branch": "BranchA", "Accounts": [
+	{ "AccountType": "Saving", "Balance": 5000 },
+	{ "AccountType": "Checking", "Balance": 3000 }
+  ]
+}
+{ "CustomerID": 2, "FirstName": "Jane", "LastName": "Smith", "AccountOpenDate": "2020-01-01", "Branch": "BranchB", "Accounts": [
+	{ "AccountType": "Saving", "Balance": 7000 },
+	{ "AccountType": "Loan", "Balance": -2000 }
+  ]
+}
+{ "CustomerID": 3, "FirstName": "Mike", "LastName": "Johnson", "AccountOpenDate": "2020-02-15", "Branch": "BranchA", "Accounts": [
+	{ "AccountType": "Saving", "Balance": 6000 }
+  ]
+}
+{ "CustomerID": 4, "FirstName": "Emily", "LastName": "Brown", "AccountOpenDate": "2020-01-01", "Branch": "BranchC", "Accounts": [
+	{ "AccountType": "Checking", "Balance": 4000 },
+	{ "AccountType": "Loan", "Balance": -5000 }
+  ]
+}
+{ "CustomerID": 5, "FirstName": "Alex", "LastName": "White", "AccountOpenDate": "2020-02-15", "Branch": "BranchB", "Accounts": [
+	{ "AccountType": "Saving", "Balance": 8000 },
+	{ "AccountType": "Checking", "Balance": 2000 }
+  ]
+}
+
+Queries:
+a. List names of all customers whose first name starts with "S":
+db.Customer.find({ "FirstName": { $regex: /^S/i } }, { _id: 0, FirstName: 1, LastName: 1 })
+
+b. List all customers who opened an account on 1/1/2020 in a specific branch (replace "___branch" with the actual branch name):
+db.Customer.find({ "AccountOpenDate": "2020-01-01", "Branch": "___branch" })
+
+c. List the names of customers where acctype="Saving":
+db.Customer.find({ "Accounts.AccountType": "Saving" }, { _id: 0, FirstName: 1, LastName: 1 })
+
+d. Count the total number of loan account holders of a specific branch (replace "......branch" with the actual branch name):
+db.Customer.count({ "Branch": "......branch", "Accounts.AccountType": "Loan" })
