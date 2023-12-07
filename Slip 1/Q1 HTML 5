@@ -1,0 +1,94 @@
+Q:1 Write the HTML5 code for generating the form as shown below. Apply the
+internal CSS to the following form to change the font size of the heading to
+6pt and change the color to red and also change the background color to
+Yellow.
+Solution
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+    	body {
+        	background-color: yellow;
+    	}
+
+    	h1 {
+        	font-size: 16pt;
+        	color: red;
+    	}
+
+    	form {
+        	max-width: 400px;
+        	margin: 20px auto;
+        	padding: 15px;
+        	background-color: white;
+        	border-radius: 10px;
+        	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    	}
+
+    	label {
+        	display: block;
+        	margin-top: 10px;
+    	}
+
+    	input, select {
+        	width: 100%;
+        	padding: 8px;
+        	margin-top: 5px;
+        	margin-bottom: 10px;
+        	box-sizing: border-box;
+    	}
+
+    	button {
+        	background-color: #4CAF50;
+        	color: white;
+        	padding: 10px 15px;
+        	border: none;
+        	border-radius: 5px;
+        	cursor: pointer;
+    	}
+    	button:hover {
+        	background-color: #45a049;
+    	}
+
+    	button, input[type="reset"] {
+        	margin-top: 15px;
+    	}
+	</style>
+	<title>Project Management Form</title>
+</head>
+<body>
+
+	<h1>Project Management Form</h1>
+
+	<form>
+    	<label for="projectName">Project Name:</label>
+    	<input type="text" id="projectName" name="projectName" required>
+
+    	<label for="assignedTo">Assigned To:</label>
+    	<input type="text" id="assignedTo" name="assignedTo" required>
+
+    	<label for="startDate">Start Date:</label>
+    	<input type="date" id="startDate" name="startDate" required>
+
+    	<label for="endDate">End Date:</label>
+    	<input type="date" id="endDate" name="endDate" required>
+
+    	<label for="priority">Priority:</label>
+    	<select id="priority" name="priority" required>
+        	<option value="high">High</option>
+        	<option value="average">Average</option>
+        	<option value="low">Low</option>
+    	</select>
+
+    	<label for="description">Description:</label>
+    	<textarea id="description" name="description" rows="4" required></textarea>
+
+    	<button type="submit">Submit</button>
+    	<input type="reset" value="Clear">
+	</form>
+
+</body>
+</html>
