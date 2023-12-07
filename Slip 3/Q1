@@ -1,0 +1,64 @@
+Q:5: Write a bootstrap application to display thumbnails of the images.
+Solution
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Add Bootstrap CSS link -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<title>Image Thumbnails</title>
+</head>
+<body>
+
+	<div class="container mt-5">
+
+    	<h2 class="text-center mb-4">Image Thumbnails</h2>
+
+    	<div class="row">
+        	<!-- Thumbnail 1 -->
+        	<div class="col-md-4">
+            	<div class="card">
+                	<img src="path/to/image1.jpg" class="card-img-top" alt="Image 1">
+                	<div class="card-body">
+                    	<h5 class="card-title">Image 1</h5>
+                    	<p class="card-text">Description for Image 1.</p>
+                	</div>
+            	</div>
+        	</div>
+
+        	<!-- Thumbnail 2 -->
+        	<div class="col-md-4">
+            	<div class="card">
+                	<img src="path/to/image2.jpg" class="card-img-top" alt="Image 2">
+                	<div class="card-body">
+                    	<h5 class="card-title">Image 2</h5>
+                    	<p class="card-text">Description for Image 2.</p>
+                	</div>
+            	</div>
+        	</div>
+
+        	<!-- Thumbnail 3 -->
+        	<div class="col-md-4">
+            	<div class="card">
+                	<img src="path/to/image3.jpg" class="card-img-top" alt="Image 3">
+                	<div class="card-body">
+                    	<h5 class="card-title">Image 3</h5>
+                    	<p class="card-text">Description for Image 3.</p>
+                	</div>
+            	</div>
+        	</div>
+       	 
+        	<!-- Add more thumbnails as needed -->
+
+    	</div>
+
+	</div>
+
+	<!-- Add Bootstrap JS and Popper.js scripts (required for Bootstrap) -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
