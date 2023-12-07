@@ -7,33 +7,27 @@ Collection: Newspaper
 ○	Sale
 ○	CityID (foreign key referencing City collection)
 ○	PublisherID (foreign key referencing Publisher collection)
-{ "NewspaperID": 1, "Name": "Times of Nashik", "Language": "English", "Sale": 5000, "CityID": 101, "PublisherID": 201 }
-{ "NewspaperID": 2, "Name": "Nashik Tribune", "Language": "Marathi", "Sale": 3000, "CityID": 101, "PublisherID": 202 }
-{ "NewspaperID": 3, "Name": "Gujarat Times", "Language": "Gujarati", "Sale": 7000, "CityID": 102, "PublisherID": 203 }
-{ "NewspaperID": 4, "Name": "Marathi Manoos", "Language": "Marathi", "Sale": 4500, "CityID": 103, "PublisherID": 204 }
-{ "NewspaperID": 5, "Name": "Mumbai Mirror", "Language": "English", "Sale": 8000, "CityID": 104, "PublisherID": 205 }
+use sahil
+db.createCollection("Newspaper")
+db.Newspaper.insert([{ "NewspaperID": 1, "Name": "Times of Nashik", "Language": "English", "Sale": 5000, "CityID": 101, "PublisherID": 201 },{ "NewspaperID": 2, "Name": "Nashik Tribune", "Language": "Marathi", "Sale": 3000, "CityID": 101, "PublisherID": 202 },{ "NewspaperID": 3, "Name": "Gujarat Times", "Language": "Gujarati", "Sale": 7000, "CityID": 102, "PublisherID": 203 },{ "NewspaperID": 4, "Name": "Marathi Manoos", "Language": "Marathi", "Sale": 4500, "CityID": 103, "PublisherID": 204 },{ "NewspaperID": 5, "Name": "Mumbai Mirror", "Language": "English", "Sale": 8000, "CityID": 104, "PublisherID": 205 }])
 
 Collection: Publisher
 ●	Attributes:
 ○	PublisherID (unique identifier)
 ○	Name
 ○	State
-{ "PublisherID": 201, "Name": "Times Publications", "State": "Maharashtra" }
-{ "PublisherID": 202, "Name": "Nashik News Agency", "State": "Maharashtra" }
-{ "PublisherID": 203, "Name": "Gujarat Media House", "State": "Gujarat" }
-{ "PublisherID": 204, "Name": "Marathi Media Group", "State": "Maharashtra" }
-{ "PublisherID": 205, "Name": "Mumbai Press Ltd.", "State": "Maharashtra" }
+db.createCollection("Publisher")
+
+db.Publisher.insert([{ "PublisherID": 201, "Name": "Times Publications", "State": "Maharashtra" },{ "PublisherID": 202, "Name": "Nashik ,ews Agency", "State": "Maharashtra" },{ "PublisherID": 203, "Name": "Gujarat Media House", "State": "Gujarat" },{ "PublisherID": 204, "Name": "Marathi Media Group", "State": "Maharashtra" },{ "PublisherID": 205, "Name": "Mumbai Press Ltd.", "State": "Maharashtra" }
 
 Collection: City
 ●	Attributes:
 ○	CityID (unique identifier)
 ○	Name
 ○	State
-{ "CityID": 101, "Name": "Nashik", "State": "Maharashtra" }
-{ "CityID": 102, "Name": "Ahmedabad", "State": "Gujarat" }
-{ "CityID": 103, "Name": "Pune", "State": "Maharashtra" }
-{ "CityID": 104, "Name": "Mumbai", "State": "Maharashtra" }
-{ "CityID": 105, "Name": "Surat", "State": "Gujarat" }
+db.createCollection("City")
+
+db.City.insert([{ "CityID": 101, "Name": "Nashik", "State": "Maharashtra" },{ "CityID": 102, "Name": "Ahmedabad", "State": "Gujarat" },{ "CityID": 103, "Name": "Pune", "State": "Maharashtra" },{ "CityID": 104, "Name": "Mumbai", "State": "Maharashtra" },{ "CityID": 105, "Name": "Surat", "State": "Gujarat" }])
 
 Queries:
 a. List all newspapers available in "Nashik" city:
@@ -43,13 +37,13 @@ b. List all the newspapers of "Marathi" language:
 db.Newspaper.find({ "Language": "Marathi" }, { _id: 0, Name: 1, CityID: 1 })
 
 c. Count the number of publishers in "Gujarat" state:
-db.Publisher.count({ "State": "Gujarat" })
+db.Publisher.countDocuments({ "State": "Gujarat" })
 
 d. Write a cursor to show newspapers with the highest sale in Maharashtra state:
 var cursor = db.Newspaper.aggregate([
-  { $match: { "CityID": { $in: [101, 103, 104] } } }, // Cities in Maharashtra
-  { $sort: { "Sale": -1 } }, // Sort by Sale in descending order
-  { $limit: 5 } // Limit to top 5 newspapers
+  { $match: { "CityID": { $in: [101, 103, 104] } } }, 
+  { $sort: { "Sale": -1 } }, 
+  { $limit: 5 } 
 ]);
 
 // Iterate through the cursor and print the results
