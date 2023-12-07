@@ -1,0 +1,68 @@
+Q:26: 1. Model the following Student Competition information as a document
+database. Consider Student competition information where the student can
+participate in many competitions.
+2. Assume appropriate attributes and collections as per the query
+requirements [3]
+3. Insert at least 10 documents in each collection. [3]
+4. Answer the following Queries.
+a. Display average no. of students participating in each competition.[3]
+b. Find the number of student for programming competition. [3]
+c. Display the names of first three winners of each competition. [4]
+d. Display students from class 'FY’ and participated in 'E-Rangoli '
+Competition. [4]
+Solution
+Collection: Competitions
+●	Attributes:
+○	CompetitionID (unique identifier)
+○	CompetitionName
+○	Participants (array of participant details)
+{ "CompetitionID": 1, "CompetitionName": "Coding Challenge", "Participants": [
+  {"StudentID": 101, "StudentName": "John Doe", "Class": "FY", "Position": 2},
+  {"StudentID": 102, "StudentName": "Jane Smith", "Class": "SY", "Position": 1},
+  {"StudentID": 103, "StudentName": "Mike Johnson", "Class": "TY", "Position": 3},
+  // ... (more participants)
+] }
+
+{ "CompetitionID": 2, "CompetitionName": "E-Rangoli", "Participants": [
+  {"StudentID": 104, "StudentName": "Emily Brown", "Class": "FY", "Position": 1},
+  {"StudentID": 105, "StudentName": "Alex White", "Class": "SY", "Position": 2},
+  {"StudentID": 106, "StudentName": "Katie Khan", "Class": "TY", "Position": 3},
+  // ... (more participants)
+] }
+
+// ... (more competition documents)
+
+Queries:
+a. Display average no. of students participating in each competition:
+db.Competitions.aggregate([
+  {
+	$project: {
+  	_id: 0,
+  	CompetitionName: 1,
+  	AverageParticipants: { $avg: { $size: "$Participants" } }
+	}
+  }
+])
+
+b. Find the number of students for programming competition:
+db.Competitions.find({ "CompetitionName": "Coding Challenge" }, { _id: 0, Participants: 1 })
+
+c. Display the names of the first three winners of each competition:
+db.Competitions.aggregate([
+  {
+	$project: {
+  	_id: 0,
+  	CompetitionName: 1,
+  	Winners: { $slice: ["$Participants", 3] }
+	}
+  }
+])
+
+d. Display students from class 'FY' and participated in 'E-Rangoli' Competition:
+db.Competitions.find(
+  {
+	"CompetitionName": "E-Rangoli",
+	"Participants.Class": "FY"
+  },
+  { _id: 0, Participants: { $elemMatch: { Class: "FY" } } }
+)
