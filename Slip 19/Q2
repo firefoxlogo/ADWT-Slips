@@ -1,0 +1,83 @@
+
+Q:38: Model the following Laptop manufacturing information system as a
+graph model, and answer the following queries using Cypher.
+Consider an Laptop manufacturing industries which produces different
+types of laptops. A customer can buya laptop, recommend or rate a the
+product.
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model.[3]
+3. Answer the Queries
+a. List the characteristics of........ laptop. [3]
+b. List the name of customers who bought a “DELL” company
+laptop [3]
+c. List the customers who purchase a device on “26/01/2023”[4]
+d. List the most recommended device.[4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Laptop
+■	Customer
+■	ReviewProvider (Person providing a review/recommendation)
+○	Relationships:
+■	(Laptop)-[:MANUFACTURED_BY]->(Manufacturer)
+■	(Laptop)-[:BOUGHT_BY]->(Customer)
+■	(ReviewProvider)-[:RECOMMENDS]->(Laptop)
+■	(ReviewProvider)-[:RATES]->(Laptop)
+2.	High-Level Graph Model:
+(Laptop)-[:MANUFACTURED_BY]->(Manufacturer)
+     	\
+(Laptop)-[:BOUGHT_BY]->(Customer)
+     	\
+(ReviewProvider)-[:RECOMMENDS]->(Laptop)
+     	\
+(ReviewProvider)-[:RATES]->(Laptop)
+
+Creating Nodes and Relationships:
+// Create Manufacturers
+CREATE (dell:Manufacturer {name: 'DELL'})
+CREATE (hp:Manufacturer {name: 'HP'})
+
+// Create Laptops
+CREATE (laptop1:Laptop {model: 'Inspiron', characteristics: '...'})
+CREATE (laptop2:Laptop {model: 'Pavilion', characteristics: '...'})
+
+// Create Customers
+CREATE (customer1:Customer {name: 'Customer1'})
+CREATE (customer2:Customer {name: 'Customer2'})
+
+// Create Review Providers
+CREATE (person1:ReviewProvider {name: 'Person1'})
+CREATE (person2:ReviewProvider {name: 'Person2'})
+
+// Create Relationships
+CREATE (laptop1)-[:MANUFACTURED_BY]->(dell)
+CREATE (laptop2)-[:MANUFACTURED_BY]->(hp)
+CREATE (laptop1)-[:BOUGHT_BY]->(customer1)
+CREATE (laptop2)-[:BOUGHT_BY]->(customer2)
+CREATE (person1)-[:RECOMMENDS]->(laptop1)
+CREATE (person2)-[:RATES {stars: 4}]->(laptop2)
+
+Queries:
+a. List the characteristics of a specific laptop:
+MATCH (laptop:Laptop {model: 'Inspiron'})
+RETURN laptop.characteristics;
+
+b. List the names of customers who bought a “DELL” laptop:
+MATCH (laptop:Laptop)-[:BOUGHT_BY]->(customer:Customer)
+WHERE (laptop)-[:MANUFACTURED_BY]->(:Manufacturer {name: 'DELL'})
+RETURN DISTINCT customer.name;
+
+c. List the customers who purchased a device on “26/01/2023”:
+MATCH (laptop:Laptop)-[:BOUGHT_BY]->(customer:Customer)
+WHERE laptop.purchaseDate = '26/01/2023'
+RETURN DISTINCT customer.name;
+
+d. List the most recommended device:
+MATCH (laptop:Laptop)<-[:RECOMMENDS]-(person:ReviewProvider)
+WITH laptop, COUNT(person) AS recommendations
+RETURN laptop.model, recommendations
+ORDER BY recommendations DESC
+LIMIT 1;
