@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Add Bootstrap CSS link -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<title>Bootstrap Container with Columns</title>
+</head>
+<body>
+
+	<!-- Bootstrap Container -->
+	<div class="container">
+
+    	<!-- Bootstrap Row -->
+    	<div class="row">
+
+        	<!-- Bootstrap Column 1 -->
+        	<div class="col-sm-4">
+            	<!-- Content for Column 1 -->
+            	<p>Column 1 Content</p>
+        	</div>
+
+        	<!-- Bootstrap Column 2 -->
+        	<div class="col-sm-4">
+            	<!-- Content for Column 2 -->
+            	<p>Column 2 Content</p>
+        	</div>
+
+        	<!-- Bootstrap Column 3 -->
+        	<div class="col-sm-4">
+            	<!-- Content for Column 3 -->
+            	<p>Column 3 Content</p>
+        	</div>
+
+    	</div>
+    	<!-- End Bootstrap Row -->
+
+	</div>
+	<!-- End Bootstrap Container -->
+
+	<!-- Add Bootstrap JS and Popper.js scripts (required for Bootstrap) -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
