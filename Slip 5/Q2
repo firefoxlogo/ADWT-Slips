@@ -1,0 +1,51 @@
+Q:10: 1. Model the following database. Many employees working on one project.
+A company has various ongoing projects.
+2. Assume appropriate attributes and collections as per the query
+requirements. [3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries
+a. List all names of projects where Project_type =..... [3]
+b. List all the projects with duration greater than 3 months [3]
+c. Count no. of employees working on ........project [4]
+d. List the names of projects on which Mr. Patil is working [4]
+Solution:
+Collection: Employee
+●	Attributes:
+○	EmployeeID (unique identifier)
+○	Name
+○	ProjectIDs (an array of project identifiers)
+{ "EmployeeID": 1, "Name": "John Doe", "ProjectIDs": [101, 102, 103] }
+{ "EmployeeID": 2, "Name": "Jane Smith", "ProjectIDs": [102, 104] }
+{ "EmployeeID": 3, "Name": "Mike Johnson", "ProjectIDs": [101, 103] }
+{ "EmployeeID": 4, "Name": "Emily Brown", "ProjectIDs": [103, 104] }
+{ "EmployeeID": 5, "Name": "Mr. Patil", "ProjectIDs": [101, 104] }
+
+Collection: Project
+●	Attributes:
+○	ProjectID (unique identifier)
+○	Name
+○	ProjectType
+○	DurationMonths
+{ "ProjectID": 101, "Name": "Project A", "ProjectType": "Development", "DurationMonths": 5 }
+{ "ProjectID": 102, "Name": "Project B", "ProjectType": "Testing", "DurationMonths": 4 }
+{ "ProjectID": 103, "Name": "Project C", "ProjectType": "Development", "DurationMonths": 3 }
+{ "ProjectID": 104, "Name": "Project D", "ProjectType": "Research", "DurationMonths": 6 }
+{ "ProjectID": 105, "Name": "Project E", "ProjectType": "Testing", "DurationMonths": 2 }
+
+Queries:
+a. List all names of projects where ProjectType = "Development":
+db.Project.find({ "ProjectType": "Development" }, { _id: 0, Name: 1 })
+
+b. List all the projects with duration greater than 3 months:
+db.Project.find({ "DurationMonths": { $gt: 3 } }, { _id: 0, Name: 1 })
+
+c. Count the number of employees working on a specific project (e.g., Project A):
+db.Employee.count({ "ProjectIDs": 101 })
+
+d. List the names of projects on which Mr. Patil is working:
+db.Employee.aggregate([
+  { $match: { "Name": "Mr. Patil" } },
+  { $lookup: { from: "Project", localField: "ProjectIDs", foreignField: "ProjectID", as: "Projects" } },
+  { $unwind: "$Projects" },
+  { $project: { _id: 0, ProjectName: "$Projects.Name" } }
+])
