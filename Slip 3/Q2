@@ -17,20 +17,17 @@ Collection: Employee
 ○	Name
 ○	DepartmentID (foreign key referencing Department collection)
 ○	Salary
-{ "EmployeeID": 1, "Name": "John Doe", "DepartmentID": 101, "Salary": 60000 }
-{ "EmployeeID": 2, "Name": "Jane Smith", "DepartmentID": 102, "Salary": 75000 }
-{ "EmployeeID": 3, "Name": "Mike Johnson", "DepartmentID": 101, "Salary": 55000 }
-{ "EmployeeID": 4, "Name": "Emily Brown", "DepartmentID": 103, "Salary": 80000 }
-{ "EmployeeID": 5, "Name": "Alex White", "DepartmentID": 102, "Salary": 70000 }
+db.createCollection("Employee")
+
+db.Employee.insert([{ "EmployeeID": 1, "Name": "John Doe", "DepartmentID": 101, "Salary": 60000 },{ "EmployeeID": 2, "Name": "Jane Smith", "DepartmentID": 102, "Salary": 75000 },{ "EmployeeID": 3, "Name": "Mike Johnson", "DepartmentID": 101, "Salary": 55000 },{ "EmployeeID": 4, "Name": "Emily Brown", "DepartmentID": 103, "Salary": 80000 },{ "EmployeeID": 5, "Name": "Alex White", "DepartmentID": 102, "Salary": 70000 }])
 
 Collection: Department
 ●	Attributes:
 ○	DepartmentID (unique identifier)
 ○	Name
 ○	Employees (an array of EmployeeIDs)
-{ "DepartmentID": 101, "Name": "Sales", "Employees": [1, 3] }
-{ "DepartmentID": 102, "Name": "Marketing", "Employees": [2, 5] }
-{ "DepartmentID": 103, "Name": "Finance", "Employees": [4] }
+db.createCollection("Department")
+db.Department.insert([{ "DepartmentID": 101, "Name": "Sales", "Employees": [1, 3] },{ "DepartmentID": 102, "Name": "Marketing", "Employees": [2, 5] },{ "DepartmentID": 103, "Name": "Finance", "Employees": [4] }])
 
 Queries:
 a. Display the name of the employee who has the highest salary:
