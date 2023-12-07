@@ -1,0 +1,57 @@
+Q:20: 1. Model the following Online shopping information as a document database.
+Consider online shopping where the customer can get different products
+from different brands. Customers can rate the brands and products
+2. Assume appropriate attributes and collections as per the query
+requirements [3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries.
+a. List the names of product whose warranty period is one year [3 ]
+b. List the customers has done purchase on “15/08/2023”. [3 ]
+c. Display the names of products with brand which have highest rating.
+[4]
+d. Display customers who stay in ...... city and billamt >50000 .[4]
+Solution
+Collection: Product
+●	Attributes:
+○	ProductID (unique identifier)
+○	Name
+○	Brand
+○	WarrantyPeriod
+○	Rating
+{ "ProductID": 1, "Name": "Laptop", "Brand": "HP", "WarrantyPeriod": "1 year", "Rating": 4.5 }
+{ "ProductID": 2, "Name": "Smartphone", "Brand": "Samsung", "WarrantyPeriod": "2 years", "Rating": 4.2 }
+{ "ProductID": 3, "Name": "Headphones", "Brand": "Sony", "WarrantyPeriod": "1 year", "Rating": 4.8 }
+{ "ProductID": 4, "Name": "Camera", "Brand": "Canon", "WarrantyPeriod": "1 year", "Rating": 4.0 }
+{ "ProductID": 5, "Name": "Smartwatch", "Brand": "Apple", "WarrantyPeriod": "2 years", "Rating": 4.7 }
+
+Collection: Customer
+●	Attributes:
+○	CustomerID (unique identifier)
+○	Name
+○	City
+○	PurchaseDate
+○	BillAmount
+{ "CustomerID": 1, "Name": "John Doe", "City": "CityA", "PurchaseDate": "15/08/2023", "BillAmount": 60000 }
+{ "CustomerID": 2, "Name": "Jane Smith", "City": "CityB", "PurchaseDate": "15/08/2023", "BillAmount": 75000 }
+{ "CustomerID": 3, "Name": "Mike Johnson", "City": "CityA", "PurchaseDate": "16/08/2023", "BillAmount": 50000 }
+{ "CustomerID": 4, "Name": "Emily Brown", "City": "CityC", "PurchaseDate": "15/08/2023", "BillAmount": 90000 }
+{ "CustomerID": 5, "Name": "Alex White", "City": "CityB", "PurchaseDate": "17/08/2023", "BillAmount": 80000 }
+
+Queries:
+a. List the names of products whose warranty period is one year:
+db.Product.find({ "WarrantyPeriod": "1 year" }, { _id: 0, Name: 1 })
+
+b. List the customers who have made a purchase on "15/08/2023":
+db.Customer.find({ "PurchaseDate": "15/08/2023" })
+
+c. Display the names of products with the brand that has the highest rating:
+db.Product.aggregate([
+  { $group: { _id: "$Brand", maxRating: { $max: "$Rating" } } },
+  { $lookup: { from: "Product", localField: "_id", foreignField: "Brand", as: "Products" } },
+  { $unwind: "$Products" },
+  { $match: { "Products.Rating": "$maxRating" } },
+  { $project: { _id: 0, ProductName: "$Products.Name", Brand: "$Products.Brand", Rating: "$Products.Rating" } }
+])
+
+d. Display customers who stay in a specific city and have a bill amount greater than 50000:
+db.Customer.find({ "City": "CityA", "BillAmount": { $gt: 50000 } })
