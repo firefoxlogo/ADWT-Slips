@@ -1,0 +1,93 @@
+Q:44: Model the following Car Showroom information as a graph model,and answer
+the queries using Cypher. Consider a car showroom with different models of
+cars like sofas Honda city, Skoda, Creta, Swift, Ertiga etc. Showroom is
+divided into different sections, onesection for each car model; each section is
+handled by a sales staff. Asales staff can handle one or more sections.
+Customer may enquire about car. An enquiry may result in a purchase by the
+customer.
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the following queries:
+
+a. List the types of cars available in the showroom. [3]
+b. List the sections handled by Mr. Narayan. [3]
+c. List the names of customers who have done only enquiry but not
+made any purchase. [4]
+d. List the highly sale car model. [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	CarModel
+■	ShowroomSection
+■	SalesStaff
+■	Customer
+○	Relationships:
+■	(CarModel)-[:DISPLAYED_IN]->(ShowroomSection)
+■	(ShowroomSection)-[:MANAGED_BY]->(SalesStaff)
+■	(Customer)-[:ENQUIRY]->(ShowroomSection)
+■	(Customer)-[:PURCHASE]->(CarModel)
+2.	High-Level Graph Model:
+(CarModel)-[:DISPLAYED_IN]->(ShowroomSection)-[:MANAGED_BY]->(SalesStaff)
+                  	\
+(Customer)-[:ENQUIRY]->(ShowroomSection)
+                  	\
+(Customer)-[:PURCHASE]->(CarModel)
+
+Creating Nodes and Relationships:
+// Create Car Models
+CREATE (:CarModel {name: 'Sofa Honda City'})
+CREATE (:CarModel {name: 'Skoda'})
+CREATE (:CarModel {name: 'Creta'})
+CREATE (:CarModel {name: 'Swift'})
+CREATE (:CarModel {name: 'Ertiga'})
+
+// Create Showroom Sections
+CREATE (:ShowroomSection {name: 'Sofa Honda City Section'})
+CREATE (:ShowroomSection {name: 'Skoda Section'})
+CREATE (:ShowroomSection {name: 'Creta Section'})
+CREATE (:ShowroomSection {name: 'Swift Section'})
+CREATE (:ShowroomSection {name: 'Ertiga Section'})
+
+// Create Sales Staff
+CREATE (:SalesStaff {name: 'Mr. Narayan'})
+
+// Create Customers
+CREATE (:Customer {name: 'Customer1'})
+CREATE (:Customer {name: 'Customer2'})
+CREATE (:Customer {name: 'Customer3'})
+
+// Create Relationships
+MATCH (cm:CarModel), (ss:ShowroomSection), (cs:SalesStaff)
+WHERE cm.name CONTAINS ss.name
+CREATE (cm)-[:DISPLAYED_IN]->(ss)
+CREATE (ss)-[:MANAGED_BY]->(cs)
+
+MATCH (c:Customer)
+WITH c LIMIT 2
+MATCH (ss:ShowroomSection), (cm:CarModel)
+WHERE cm.name CONTAINS ss.name
+CREATE (c)-[:ENQUIRY]->(ss)
+CREATE (c)-[:PURCHASE]->(cm);
+
+Queries:
+a. List the types of cars available in the showroom:
+MATCH (car:CarModel)
+RETURN car.name;
+
+b. List the sections handled by Mr. Narayan:
+MATCH (ss:ShowroomSection)-[:MANAGED_BY]->(ssManager:SalesStaff {name: 'Mr. Narayan'})
+RETURN ss.name;
+
+c. List the names of customers who have done only an enquiry but not made any purchase:
+MATCH (c:Customer)-[:ENQUIRY]->(ss:ShowroomSection)
+WHERE NOT (c)-[:PURCHASE]->()
+RETURN c.name;
+
+d. List the highly sale car model:
+MATCH (cm:CarModel)<-[:PURCHASE]-(c:Customer)
+RETURN cm.name, COUNT(c) AS salesCount
+ORDER BY salesCount DESC
+LIMIT 1;
