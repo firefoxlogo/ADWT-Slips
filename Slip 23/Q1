@@ -1,0 +1,85 @@
+Q:45:Create a web page to display image on screen
+Apply the following
+a. Display image in tiles
+b. Rotate image in clockwise and anticlockwise direction
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Image Viewer</title>
+	<style>
+    	#imageContainer {
+        	display: flex;
+        	flex-wrap: wrap;
+        	gap: 5px;
+    	}
+
+    	img {
+        	max-width: 100%;
+        	height: auto;
+        	transition: transform 0.5s ease-in-out;
+    	}
+
+    	button {
+        	margin-top: 10px;
+    	}
+	</style>
+</head>
+<body>
+
+	<div id="imageContainer"></div>
+
+	<button onclick="rotateClockwise()">Rotate Clockwise</button>
+	<button onclick="rotateAntiClockwise()">Rotate Anti-clockwise</button>
+
+	<script>
+    	const imageContainer = document.getElementById('imageContainer');
+    	const images = [
+        	'image1.jpg', // Add the path to your images
+        	'image2.jpg',
+        	'image3.jpg',
+        	// Add more images as needed
+    	];
+
+    	// Display images in tiles
+    	images.forEach(imagePath => {
+        	const imgElement = document.createElement('img');
+        	imgElement.src = imagePath;
+        	imgElement.alt = 'Image';
+        	imgElement.addEventListener('click', () => toggleZoom(imgElement));
+        	imageContainer.appendChild(imgElement);
+    	});
+
+    	let zoomed = false;
+
+    	function toggleZoom(imgElement) {
+        	if (zoomed) {
+            	imgElement.style.transform = 'scale(1)';
+        	} else {
+            	imgElement.style.transform = 'scale(2)';
+        	}
+        	zoomed = !zoomed;
+    	}
+
+    	function rotateClockwise() {
+        	rotateImage(90);
+    	}
+
+    	function rotateAntiClockwise() {
+        	rotateImage(-90);
+    	}
+
+    	function rotateImage(degrees) {
+        	images.forEach(imagePath => {
+            	const imgElement = document.querySelector(`img[src="${imagePath}"]`);
+            	const currentRotation = parseInt(imgElement.style.transform.replace(/[^0-9\-]/g, ''), 10) || 0;
+            	const newRotation = currentRotation + degrees;
+            	imgElement.style.transform = `rotate(${newRotation}deg)`;
+        	});
+    	}
+	</script>
+
+</body>
+</html>
+
