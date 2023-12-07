@@ -1,0 +1,71 @@
+Q:30: Model the following movie system as a Graph database.
+Consider a information about of movie and actors. One movie can have
+more than one actor
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the Queries:
+a. Find movie which made highest business. [3]
+b. Display details of movie along with actors. [3]
+c. List all the movie of “Shahrukh Khan”. [4]
+d. Display all movie having more than 2 awards received
+[4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Movie
+■	Actor
+○	Relationships:
+■	(Movie)-[:ACTED_IN]->(Actor) (relationship between Movie and Actor)
+■	(Movie)-[:HAS_AWARDS]->(Award) (relationship to represent awards received by a movie)
+2.	High-Level Graph Model:
+   	(Movie)-[:ACTED_IN]->(Actor)
+   	/
+(Movie)-[:HAS_AWARDS]->(Award)
+
+Creating Nodes and Relationships:
+// Create Movies
+CREATE (m1:Movie {title: 'Movie1', business: 1000000})
+CREATE (m2:Movie {title: 'Movie2', business: 1500000})
+
+// Create Actors
+CREATE (a1:Actor {name: 'Actor1'})
+CREATE (a2:Actor {name: 'Actor2'})
+CREATE (a3:Actor {name: 'Actor3'})
+
+// Create Relationships (ACTED_IN)
+CREATE (m1)-[:ACTED_IN]->(a1)
+CREATE (m1)-[:ACTED_IN]->(a2)
+CREATE (m2)-[:ACTED_IN]->(a1)
+CREATE (m2)-[:ACTED_IN]->(a3)
+
+// Create Awards
+CREATE (award1:Award {name: 'Best Actor'})
+CREATE (award2:Award {name: 'Best Movie'})
+
+// Create Relationships (HAS_AWARDS)
+CREATE (m1)-[:HAS_AWARDS]->(award1)
+CREATE (m2)-[:HAS_AWARDS]->(award2)
+
+Queries:
+a. Find the movie which made the highest business:
+MATCH (m:Movie)
+RETURN m.title, m.business
+ORDER BY m.business DESC
+LIMIT 1;
+
+b. Display details of a movie along with actors:
+MATCH (m:Movie {title: 'Movie1'})-[:ACTED_IN]->(a:Actor)
+RETURN m.title, a.name;
+
+c. List all the movies of "Shahrukh Khan" (assuming Shahrukh Khan is an actor in the database):
+MATCH (a:Actor {name: 'Shahrukh Khan'})<-[:ACTED_IN]-(m:Movie)
+RETURN m.title;
+
+d. Display all movies having more than 2 awards received:
+MATCH (m:Movie)-[:HAS_AWARDS]->(award)
+WITH m, COUNT(award) AS numAwards
+WHERE numAwards > 2
+RETURN m.title, numAwards;
