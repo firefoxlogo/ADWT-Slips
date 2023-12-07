@@ -21,25 +21,27 @@ Collection: Item
 ○	Quantity
 ○	Height
 ○	Status
-{ "ItemID": 1, "Name": "Laptop", "Tags": ["Electronics", "Gadgets"], "Quantity": 400, "Height": 10, "Status": "A" }
-{ "ItemID": 2, "Name": "Chair", "Tags": ["Furniture"], "Quantity": 150, "Height": 8, "Status": "B" }
-{ "ItemID": 3, "Name": "Planner", "Tags": ["Office Supplies", "Stationery"], "Quantity": 15, "Height": 9, "Status": "C" }
-{ "ItemID": 4, "Name": "Camera", "Tags": ["Photography", "Electronics"], "Quantity": 250, "Height": 6, "Status": "B" }
-{ "ItemID": 5, "Name": "Tablet", "Tags": ["Electronics", "Gadgets"], "Quantity": 500, "Height": 7, "Status": "A" }
+db.createCollevtion("Item")
+db.Item.insert([{ "ItemID": 1, "Name": "Laptop", "Tags": ["Electronics", "Gadgets"], "Quantity": 400, "Height": 10, "Status": "A" },
+{ "ItemID": 2, "Name": "Chair", "Tags": ["Furniture"], "Quantity": 150, "Height": 8, "Status": "B" },
+{ "ItemID": 3, "Name": "Planner", "Tags": ["Office Supplies", "Stationery"], "Quantity": 15, "Height": 9, "Status": "C" },
+{ "ItemID": 4, "Name": "Camera", "Tags": ["Photography", "Electronics"], "Quantity": 250, "Height": 6, "Status": "B" },
+{ "ItemID": 5, "Name": "Tablet", "Tags": ["Electronics", "Gadgets"], "Quantity": 500, "Height": 7, "Status": "A" }])
 
 Collection: Warehouse
 ●	Attributes:
 ○	WarehouseID (unique identifier)
 ○	Name
 ○	ItemsInStock (an array of item objects with Quantity attribute)
-{ "WarehouseID": 1, "Name": "Warehouse A", "ItemsInStock": [
+db.createCollection("Warehouse")
+db.Warehouse.insert([{ "WarehouseID": 1, "Name": "Warehouse A", "ItemsInStock": [
 	{ "ItemID": 1, "Quantity": 200 },
 	{ "ItemID": 2, "Quantity": 50 },
 	{ "ItemID": 3, "Quantity": 10 },
 	{ "ItemID": 4, "Quantity": 100 },
 	{ "ItemID": 5, "Quantity": 300 }
   ]
-}
+},
 { "WarehouseID": 2, "Name": "Warehouse B", "ItemsInStock": [
 	{ "ItemID": 1, "Quantity": 200 },
 	{ "ItemID": 2, "Quantity": 100 },
@@ -47,7 +49,7 @@ Collection: Warehouse
 	{ "ItemID": 4, "Quantity": 150 },
 	{ "ItemID": 5, "Quantity": 200 }
   ]
-}
+}])
 
 Queries:
 a. List all the items where quantity is greater than 300:
