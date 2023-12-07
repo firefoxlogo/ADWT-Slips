@@ -1,0 +1,91 @@
+Q:36: Model the following Doctor’s information system as a graph model, and
+answer the following queries using Cypher.
+Consider the doctors in and around Pune. Each Doctor is specialized in
+some stream like Pediatric, Gynaec, Heart Specialist, Cancer Specialist,
+ENT, etc. A doctor may be a visiting doctor across many hospitals or he
+may own a clinic. A person can provide a review/can recommend a
+doctor.
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the Queries
+a. List the Orthopedic doctors in ....... Area. [3]
+b. List the doctors who has specialization in ____ [3]
+c. List the most recommended Pediatrics in Seren Medows. [4]
+d. List all the who visits more than 2 hospitals [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Doctor
+■	Hospital
+■	Clinic
+■	ReviewProvider (Person providing a review/recommendation)
+○	Relationships:
+■	(Doctor)-[:SPECIALIZED_IN]->(Specialization)
+■	(Doctor)-[:WORKS_AT]->(Hospital)
+■	(Doctor)-[:OWNS_CLINIC]->(Clinic)
+■	(ReviewProvider)-[:RECOMMENDS]->(Doctor)
+2.	High-Level Graph Model:
+(Doctor)-[:SPECIALIZED_IN]->(Specialization)
+     	\
+(Doctor)-[:WORKS_AT]->(Hospital)
+     	\
+(Doctor)-[:OWNS_CLINIC]->(Clinic)
+     	\
+(ReviewProvider)-[:RECOMMENDS]->(Doctor)
+
+Creating Nodes and Relationships:
+// Create Specializations
+CREATE (ortho:Specialization {name: 'Orthopedic'})
+CREATE (ped:Specialization {name: 'Pediatrics'})
+
+// Create Doctors
+CREATE (doc1:Doctor {name: 'Dr. Smith'})
+CREATE (doc2:Doctor {name: 'Dr. Johnson'})
+
+// Create Hospitals
+CREATE (hosp1:Hospital {name: 'City Hospital'})
+CREATE (hosp2:Hospital {name: 'Seren Medows'})
+
+// Create Clinics
+CREATE (clinic1:Clinic {name: 'Ortho Care Clinic'})
+CREATE (clinic2:Clinic {name: 'Pediatric Wellness Center'})
+
+// Create Relationships
+CREATE (doc1)-[:SPECIALIZED_IN]->(ortho)
+CREATE (doc2)-[:SPECIALIZED_IN]->(ped)
+CREATE (doc1)-[:WORKS_AT]->(hosp1)
+CREATE (doc2)-[:WORKS_AT]->(hosp2)
+CREATE (doc1)-[:OWNS_CLINIC]->(clinic1)
+CREATE (doc2)-[:OWNS_CLINIC]->(clinic2)
+
+// Create Review Providers
+CREATE (person1:ReviewProvider {name: 'Person1'})
+CREATE (person2:ReviewProvider {name: 'Person2'})
+
+// Create Relationships
+CREATE (person1)-[:RECOMMENDS]->(doc1)
+CREATE (person2)-[:RECOMMENDS]->(doc2)
+
+Queries:
+a. List the Orthopedic doctors in a specific area:
+MATCH (doc:Doctor)-[:SPECIALIZED_IN]->(ortho:Specialization {name: 'Orthopedic'})-[:WORKS_AT]->(hospital:Hospital {area: 'YourArea'})
+RETURN doc.name;
+
+b. List the doctors who have specialization in a specific area:
+MATCH (doc:Doctor)-[:SPECIALIZED_IN]->(specialization:Specialization {name: 'YourSpecialization'})
+RETURN doc.name, specialization.name;
+
+c. List the most recommended Pediatrics in Seren Medows:
+MATCH (:ReviewProvider)-[:RECOMMENDS]->(doc:Doctor)-[:SPECIALIZED_IN]->(:Specialization {name: 'Pediatrics'})-[:WORKS_AT]->(hospital:Seren Medows)
+RETURN doc.name, COUNT(*) AS recommendations
+ORDER BY recommendations DESC
+LIMIT 1;
+
+d. List all doctors who visit more than 2 hospitals:
+MATCH (doc:Doctor)-[:WORKS_AT]->(hospital:Hospital)
+WITH doc, COUNT(DISTINCT hospital) AS hospitalCount
+WHERE hospitalCount > 2
+RETURN doc.name, hospitalCount;
