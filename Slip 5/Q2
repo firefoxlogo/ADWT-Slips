@@ -14,23 +14,18 @@ Collection: Employee
 ○	EmployeeID (unique identifier)
 ○	Name
 ○	ProjectIDs (an array of project identifiers)
-{ "EmployeeID": 1, "Name": "John Doe", "ProjectIDs": [101, 102, 103] }
-{ "EmployeeID": 2, "Name": "Jane Smith", "ProjectIDs": [102, 104] }
-{ "EmployeeID": 3, "Name": "Mike Johnson", "ProjectIDs": [101, 103] }
-{ "EmployeeID": 4, "Name": "Emily Brown", "ProjectIDs": [103, 104] }
-{ "EmployeeID": 5, "Name": "Mr. Patil", "ProjectIDs": [101, 104] }
+db.createCollection("Employee")
 
+db.Employee.insert([{ "EmployeeID": 1, "Name": "John Doe", "ProjectIDs": [101, 102, 103] },{ "EmployeeID": 2, "Name": "Jane Smith", "ProjectIDs": [102, 104] },{ "EmployeeID": 3, "Name": "Mike Johnson", "ProjectIDs": [101, 103] },{ "EmployeeID": 4, "Name": "Emily Brown", "ProjectIDs": [103, 104] },{ "EmployeeID": 5, "Name": "Mr. Patil", "ProjectIDs": [101, 104] }])
 Collection: Project
 ●	Attributes:
 ○	ProjectID (unique identifier)
 ○	Name
 ○	ProjectType
 ○	DurationMonths
-{ "ProjectID": 101, "Name": "Project A", "ProjectType": "Development", "DurationMonths": 5 }
-{ "ProjectID": 102, "Name": "Project B", "ProjectType": "Testing", "DurationMonths": 4 }
-{ "ProjectID": 103, "Name": "Project C", "ProjectType": "Development", "DurationMonths": 3 }
-{ "ProjectID": 104, "Name": "Project D", "ProjectType": "Research", "DurationMonths": 6 }
-{ "ProjectID": 105, "Name": "Project E", "ProjectType": "Testing", "DurationMonths": 2 }
+db.createCollection("project")
+
+db.Project.insert([{ "ProjectID": 101, "Name": "Project A", "ProjectType": "Development", "DurationMonths": 5 },{ "ProjectID": 102, "Name": "Project B", "ProjectType": "Testing", "DurationMonths": 4 },{ "ProjectID": 103, "Name": "Project C", "ProjectType": "Development", "DurationMonths": 3 },{ "ProjectID": 104, "Name": "Project D", "ProjectType": "Research", "DurationMonths": 6 },{ "ProjectID": 105, "Name": "Project E", "ProjectType": "Testing", "DurationMonths": 2 }])
 
 Queries:
 a. List all names of projects where ProjectType = "Development":
@@ -40,7 +35,7 @@ b. List all the projects with duration greater than 3 months:
 db.Project.find({ "DurationMonths": { $gt: 3 } }, { _id: 0, Name: 1 })
 
 c. Count the number of employees working on a specific project (e.g., Project A):
-db.Employee.count({ "ProjectIDs": 101 })
+db.Employee.countDocuments({ "ProjectIDs": 101 })
 
 d. List the names of projects on which Mr. Patil is working:
 db.Employee.aggregate([
