@@ -1,0 +1,74 @@
+Q:12: 1. Model the following information as a document database.
+A customer can take different policies and get the benefit. There are
+different types of policies provided by various companies
+2. Assume appropriate attributes and collections as per the query
+requirements. [3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries.
+a. List the details of customers who have taken “Komal Jeevan” Policy
+[3]
+b. Display average premium amount [3]
+c. Increase the premium amount by 5% for policy type=”Monthly”
+[4]
+d. Count no. of customers who have taken policy type “half yearly”. [4]
+Solution
+Collection: Customer
+●	Attributes:
+○	CustomerID (unique identifier)
+○	Name
+○	Policies (an array of policy objects)
+{ "CustomerID": 1, "Name": "John Doe", "Policies": [
+	{ "PolicyType": "Komal Jeevan", "PremiumAmount": 5000 },
+	{ "PolicyType": "Life Secure", "PremiumAmount": 8000 },
+	{ "PolicyType": "Medical Shield", "PremiumAmount": 6000 }
+  ]
+}
+{ "CustomerID": 2, "Name": "Jane Smith", "Policies": [
+	{ "PolicyType": "Komal Jeevan", "PremiumAmount": 5500 },
+	{ "PolicyType": "Retirement Plan", "PremiumAmount": 7000 },
+	{ "PolicyType": "Travel Insurance", "PremiumAmount": 3000 }
+  ]
+}
+{ "CustomerID": 3, "Name": "Mike Johnson", "Policies": [
+	{ "PolicyType": "Education Shield", "PremiumAmount": 4500 },
+	{ "PolicyType": "Komal Jeevan", "PremiumAmount": 6000 }
+  ]
+}
+{ "CustomerID": 4, "Name": "Emily Brown", "Policies": [
+	{ "PolicyType": "Retirement Plan", "PremiumAmount": 7500 },
+	{ "PolicyType": "Komal Jeevan", "PremiumAmount": 7000 }
+  ]
+}
+{ "CustomerID": 5, "Name": "Alex White", "Policies": [
+	{ "PolicyType": "Travel Insurance", "PremiumAmount": 4000 },
+	{ "PolicyType": "Komal Jeevan", "PremiumAmount": 5500 }
+  ]
+}
+
+Collection: Policy
+●	Attributes:
+○	PolicyType (unique identifier)
+○	Company
+○	CoverageDetails
+{ "PolicyType": "Komal Jeevan", "Company": "ABC Insurance", "CoverageDetails": "Life coverage with maturity benefits" }
+{ "PolicyType": "Life Secure", "Company": "XYZ Insurance", "CoverageDetails": "Comprehensive life coverage" }
+{ "PolicyType": "Medical Shield", "Company": "PQR Health", "CoverageDetails": "Health insurance with hospitalization coverage" }
+{ "PolicyType": "Retirement Plan", "Company": "LMN Investments", "CoverageDetails": "Savings plan with retirement benefits" }
+{ "PolicyType": "Education Shield", "Company": "Edu Insurance", "CoverageDetails": "Education insurance for children" }
+{ "PolicyType": "Travel Insurance", "Company": "TravelSafe", "CoverageDetails": "Coverage for trip cancellations, medical emergencies, etc." }
+
+Queries:
+a. List the details of customers who have taken "Komal Jeevan" Policy:
+db.Customer.find({ "Policies.PolicyType": "Komal Jeevan" })
+
+b. Display average premium amount:
+db.Customer.aggregate([
+  { $unwind: "$Policies" },
+  { $group: { _id: null, averagePremium: { $avg: "$Policies.PremiumAmount" } } }
+])
+
+c. Increase the premium amount by 5% for policy type="Monthly":
+db.Customer.updateMany({ "Policies.PolicyType": "Monthly" }, { $mul: { "Policies.$.PremiumAmount": 1.05 } })
+
+d. Count the number of customers who have taken policy type "half yearly":
+db.Customer.count({ "Policies.PolicyType": "Half Yearly" })
