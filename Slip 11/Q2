@@ -1,0 +1,97 @@
+Q:22:1. Model the following sales system as a document database. Consider a
+set of products, customers, orders and invoices. An invoice is generated
+when an order is processed.
+2. Assume appropriate attributes and collections as per the query
+requirements.[3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries.
+a. List all products in the inventory. [3]
+b. List the details of orders with a value >20000. [3]
+c. List all the orders which has not been processed (invoice not
+generated)[4]
+d. List all the orders along with their invoice for “Mr. Rajiv”.[4]
+Solution
+Collection: Products
+●	Attributes:
+○	ProductID (unique identifier)
+○	ProductName
+○	Category
+○	Price
+{ "ProductID": 1, "ProductName": "Laptop", "Category": "Electronics", "Price": 800 }
+{ "ProductID": 2, "ProductName": "Smartphone", "Category": "Electronics", "Price": 500 }
+{ "ProductID": 3, "ProductName": "Desk Chair", "Category": "Furniture", "Price": 100 }
+{ "ProductID": 4, "ProductName": "Camera", "Category": "Electronics", "Price": 300 }
+{ "ProductID": 5, "ProductName": "Office Desk", "Category": "Furniture", "Price": 150 }
+
+Collection: Customers
+●	Attributes:
+○	CustomerID (unique identifier)
+○	CustomerName
+○	Email
+○	Address
+{ "CustomerID": 1, "CustomerName": "Mr. Rajiv", "Email": "rajiv@example.com", "Address": "123 Main St, CityA" }
+{ "CustomerID": 2, "CustomerName": "Ms. Priya", "Email": "priya@example.com", "Address": "456 Oak St, CityB" }
+{ "CustomerID": 3, "CustomerName": "Mr. Sharma", "Email": "sharma@example.com", "Address": "789 Pine St, CityC" }
+{ "CustomerID": 4, "CustomerName": "Mrs. Patel", "Email": "patel@example.com", "Address": "101 Cedar St, CityA" }
+{ "CustomerID": 5, "CustomerName": "Ms. Khan", "Email": "khan@example.com", "Address": "202 Elm St, CityB" }
+
+Collection: Orders
+●	Attributes:
+○	OrderID (unique identifier)
+○	CustomerID (reference to Customers)
+○	ProductID (reference to Products)
+○	Quantity
+○	OrderValue
+{ "OrderID": 1, "CustomerID": 1, "ProductID": 1, "Quantity": 2, "OrderValue": 1600 }
+{ "OrderID": 2, "CustomerID": 2, "ProductID": 3, "Quantity": 4, "OrderValue": 400 }
+{ "OrderID": 3, "CustomerID": 1, "ProductID": 5, "Quantity": 1, "OrderValue": 150 }
+{ "OrderID": 4, "CustomerID": 4, "ProductID": 2, "Quantity": 3, "OrderValue": 1500 }
+{ "OrderID": 5, "CustomerID": 5, "ProductID": 4, "Quantity": 1, "OrderValue": 300 }
+
+Collection: Invoices
+●	Attributes:
+○	InvoiceID (unique identifier)
+○	OrderID (reference to Orders)
+○	InvoiceDate
+○	TotalAmount
+{ "InvoiceID": 1, "OrderID": 1, "InvoiceDate": "2023-08-15", "TotalAmount": 1600 }
+{ "InvoiceID": 2, "OrderID": 2, "InvoiceDate": "2023-08-16", "TotalAmount": 400 }
+{ "InvoiceID": 3, "OrderID": 4, "InvoiceDate": "2023-08-18", "TotalAmount": 1500 }
+{ "InvoiceID": 4, "OrderID": 5, "InvoiceDate": "2023-08-19", "TotalAmount": 300 }
+
+Queries:
+a. List all products in the inventory:
+db.Products.find({}, { _id: 0, ProductID: 1, ProductName: 1, Category: 1, Price: 1 })
+
+b. List the details of orders with a value >20000:
+
+db.Orders.find({ "OrderValue": { $gt: 20000 } })
+
+c. List all the orders which have not been processed (invoice not generated):
+db.Orders.find({ "OrderID": { $nin: db.Invoices.distinct("OrderID") } })
+
+d. List all the orders along with their invoice for "Mr. Rajiv":
+db.Orders.aggregate([
+  { $match: { "CustomerID": db.Customers.findOne({ "CustomerName": "Mr. Rajiv" }).CustomerID } },
+  {
+	$lookup: {
+  	from: "Invoices",
+  	localField: "OrderID",
+  	foreignField: "OrderID",
+  	as: "InvoiceDetails"
+	}
+  },
+  { $unwind: "$InvoiceDetails" },
+  {
+	$project: {
+  	_id: 0,
+  	OrderID: 1,
+  	ProductID: 1,
+  	Quantity: 1,
+  	OrderValue: 1,
+  	InvoiceID: "$InvoiceDetails.InvoiceID",
+  	InvoiceDate: "$InvoiceDetails.InvoiceDate",
+  	TotalAmount: "$InvoiceDetails.TotalAmount"
+	}
+  }
+])
