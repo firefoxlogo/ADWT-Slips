@@ -1,0 +1,118 @@
+Q:11:Create a web page being rendered in the browser consists of many things -
+logo, informative text, pictures, hyperlinks, navigational structure and table.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Your Web Page</title>
+	<style>
+    	/* Add your custom CSS styles here */
+    	body {
+        	font-family: Arial, sans-serif;
+        	margin: 20px;
+        	padding: 20px;
+    	}
+
+    	header {
+        	text-align: center;
+        	margin-bottom: 20px;
+    	}
+
+    	nav {
+        	margin-bottom: 20px;
+    	}
+
+    	nav a {
+        	margin-right: 20px;
+        	text-decoration: none;
+        	color: #333;
+    	}
+
+    	section {
+        	margin-bottom: 20px;
+    	}
+
+    	table {
+        	border-collapse: collapse;
+        	width: 100%;
+    	}
+
+    	table, th, td {
+        	border: 1px solid #ddd;
+    	}
+
+    	th, td {
+        	padding: 10px;
+        	text-align: left;
+    	}
+	</style>
+</head>
+<body>
+
+	<header>
+    	<img src="your-logo.png" alt="Your Logo" width="200">
+    	<h1>Welcome to Your Website</h1>
+	</header>
+
+	<nav>
+    	<a href="#home">Home</a>
+    	<a href="#about">About Us</a>
+    	<a href="#services">Services</a>
+    	<a href="#contact">Contact</a>
+	</nav>
+
+	<section>
+    	<h2>About Us</h2>
+    	<p>This is a brief description of your company or organization.</p>
+	</section>
+
+	<section>
+    	<h2>Services</h2>
+    	<ul>
+        	<li>Service 1</li>
+        	<li>Service 2</li>
+        	<li>Service 3</li>
+    	</ul>
+	</section>
+
+	<section>
+    	<h2>Contact</h2>
+    	<p>For inquiries, please contact us at <a href="mailto:info@example.com">info@example.com</a>.</p>
+	</section>
+
+	<section>
+    	<h2>Image Gallery</h2>
+    	<img src="image1.jpg" alt="Image 1" width="300">
+    	<img src="image2.jpg" alt="Image 2" width="300">
+    	<!-- Add more images as needed -->
+	</section>
+
+	<section>
+    	<h2>Table Example</h2>
+    	<table>
+        	<thead>
+            	<tr>
+                	<th>Name</th>
+                	<th>Age</th>
+                	<th>Country</th>
+            	</tr>
+        	</thead>
+        	<tbody>
+            	<tr>
+                	<td>John Doe</td>
+                	<td>30</td>
+                	<td>USA</td>
+            	</tr>
+            	<tr>
+                	<td>Jane Smith</td>
+                	<td>25</td>
+                	<td>Canada</td>
+            	</tr>
+            	<!-- Add more rows as needed -->
+        	</tbody>
+    	</table>
+	</section>
+
+</body>
+</html>
