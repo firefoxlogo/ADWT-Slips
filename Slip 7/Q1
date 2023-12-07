@@ -1,0 +1,31 @@
+Q:13: Create a 3D text, apply appropriate font, style, color. Use : Hover in the
+style selector so that the 3D effects appear only when you hover over
+the text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+    	.threeD-text {
+        	font-family: 'Arial', sans-serif;
+        	font-size: 2em;
+        	font-weight: bold;
+        	color: #3498db;
+        	position: relative;
+        	display: inline-block;
+        	transition: transform 0.3s;
+    	}
+
+    	.threeD-text:hover {
+        	transform: perspective(500px) rotateX(20deg);
+    	}
+	</style>
+	<title>3D Text</title>
+</head>
+<body>
+
+	<div class="threeD-text">Hover me for 3D effect!</div>
+
+</body>
+</html>
