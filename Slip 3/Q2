@@ -1,0 +1,60 @@
+Q:6: 1. Model the following system as a document database. Consider
+employee and department’s information.
+2. Assume appropriate attributes and collections as per the query
+requirements. [3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries.
+a. Display name of employee who has highest salary [3]
+b. Display biggest department with max. no. of employees [3]
+c. Write a cursor which shows department wise employee
+information [4]
+d. List all the employees who work in Sales dept and salary > 50000
+[4]
+Solution
+Collection: Employee
+●	Attributes:
+○	EmployeeID (unique identifier)
+○	Name
+○	DepartmentID (foreign key referencing Department collection)
+○	Salary
+{ "EmployeeID": 1, "Name": "John Doe", "DepartmentID": 101, "Salary": 60000 }
+{ "EmployeeID": 2, "Name": "Jane Smith", "DepartmentID": 102, "Salary": 75000 }
+{ "EmployeeID": 3, "Name": "Mike Johnson", "DepartmentID": 101, "Salary": 55000 }
+{ "EmployeeID": 4, "Name": "Emily Brown", "DepartmentID": 103, "Salary": 80000 }
+{ "EmployeeID": 5, "Name": "Alex White", "DepartmentID": 102, "Salary": 70000 }
+
+Collection: Department
+●	Attributes:
+○	DepartmentID (unique identifier)
+○	Name
+○	Employees (an array of EmployeeIDs)
+{ "DepartmentID": 101, "Name": "Sales", "Employees": [1, 3] }
+{ "DepartmentID": 102, "Name": "Marketing", "Employees": [2, 5] }
+{ "DepartmentID": 103, "Name": "Finance", "Employees": [4] }
+
+Queries:
+a. Display the name of the employee who has the highest salary:
+db.Employee.find().sort({ "Salary": -1 }).limit(1, { _id: 0, Name: 1 })
+
+b. Display the biggest department with the maximum number of employees:
+db.Department.aggregate([
+  { $project: { DepartmentID: 1, Name: 1, NumEmployees: { $size: "$Employees" } } },
+  { $sort: { NumEmployees: -1 } },
+  { $limit: 1 }
+])
+
+c. Write a cursor that shows department-wise employee information:
+var cursor = db.Department.find();
+
+while (cursor.hasNext()) {
+  var department = cursor.next();
+  print("Department: " + department.Name);
+  print("Employees: ");
+  db.Employee.find({ "DepartmentID": department.DepartmentID }).forEach(function (employee) {
+	print("\tEmployeeID: " + employee.EmployeeID + ", Name: " + employee.Name + ", Salary: " + employee.Salary);
+  });
+  print("\n");
+}
+
+d. List all the employees who work in the "Sales" department and have a salary greater than 50000:
+db.Employee.find({ "DepartmentID": 101, "Salary": { $gt: 50000 } }, { _id: 0, Name: 1, Salary: 1 })
