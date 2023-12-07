@@ -1,0 +1,42 @@
+Q:35:Create a web page, place an image in center and apply 2d transformation on
+it. (rotation, scaling, translation)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>2D Transformation Example</title>
+
+	<style>
+    	body {
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        	height: 100vh;
+        	margin: 0;
+        	background-color: #f0f0f0;
+    	}
+
+    	#centeredImage {
+        	width: 200px;
+        	height: 150px;
+        	transition: transform 0.5s ease; /* Add smooth transition */
+    	}
+
+    	/* Apply transformation on hover */
+    	#centeredImage:hover {
+        	/* Rotate the image by 45 degrees */
+        	transform: rotate(45deg);
+        	/* Scale the image by 1.5 times */
+        	transform: scale(1.5);
+        	/* Translate the image by 50px both horizontally and vertically */
+        	transform: translate(50px, 50px);
+    	}
+	</style>
+</head>
+<body>
+
+	<img id="centeredImage" src="your-image.jpg" alt="Centered Image">
+
+</body>
+</html>
