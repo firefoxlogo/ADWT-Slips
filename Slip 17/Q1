@@ -1,0 +1,86 @@
+Q:33: Design HTML 5 Page Using CSS which display the following Box ( use Box Model Property in
+CSS)
+
+Q:34: Model the following Books and Publisher information as a graph model,
+and answer the following queries using Cypher.
+Author wrote various types of books which is published by publishers.
+A reader reads a books according to his linking and can
+recommend/provide review for it.
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model.[3]
+3. Answer the Queries
+a. List the names of authors who wrote “Comics”. [3]
+b. Count no. of readers of _____book published by
+“Sage”. [3]
+c. List all the publisher whose name starts with “N” [4]
+d. List the names of people who have given a rating of (>=3) for
+______ book [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Author
+■	Book
+■	Publisher
+■	Reader
+○	Relationships:
+■	(Author)-[:WROTE]->(Book)
+■	(Book)-[:PUBLISHED_BY]->(Publisher)
+■	(Reader)-[:READ]->(Book)
+■	(Reader)-[:RECOMMENDS]->(Book)
+■	(Reader)-[:GAVE_RATING]->(Book)
+2.	High-Level Graph Model:
+(Author)-[:WROTE]->(Book)-[:PUBLISHED_BY]->(Publisher)
+     	\
+(Reader)-[:READ]->(Book)
+     	\
+(Reader)-[:RECOMMENDS]->(Book)
+     	\
+(Reader)-[:GAVE_RATING]->(Book)
+
+Creating Nodes and Relationships:
+// Create Authors
+CREATE (author1:Author {name: 'Author1'})
+CREATE (author2:Author {name: 'Author2'})
+
+// Create Books
+CREATE (book1:Book {title: 'Book1', genre: 'Comics'})
+CREATE (book2:Book {title: 'Book2', genre: 'Fiction'})
+
+// Create Publishers
+CREATE (publisher1:Publisher {name: 'Sage'})
+CREATE (publisher2:Publisher {name: 'New Publishers'})
+
+// Create Readers
+CREATE (reader1:Reader {name: 'Reader1'})
+CREATE (reader2:Reader {name: 'Reader2'})
+
+// Create Relationships (WROTE, PUBLISHED_BY, READ, RECOMMENDS, GAVE_RATING)
+CREATE (author1)-[:WROTE]->(book1)-[:PUBLISHED_BY]->(publisher1)
+CREATE (author2)-[:WROTE]->(book2)-[:PUBLISHED_BY]->(publisher2)
+CREATE (reader1)-[:READ]->(book1)
+CREATE (reader1)-[:RECOMMENDS]->(book1)
+CREATE (reader1)-[:GAVE_RATING {stars: 4}]->(book1)
+CREATE (reader2)-[:READ]->(book2)
+CREATE (reader2)-[:RECOMMENDS]->(book2)
+CREATE (reader2)-[:GAVE_RATING {stars: 5}]->(book2)
+
+Queries:
+a. List the names of authors who wrote “Comics”:
+MATCH (author:Author)-[:WROTE]->(book:Book {genre: 'Comics'})
+RETURN DISTINCT author.name;
+
+b. Count the number of readers of a specific book published by “Sage”:
+MATCH (:Book {title: 'Book1'})<-[:READ]-(reader:Reader)
+RETURN COUNT(DISTINCT reader) AS numberOfReaders;
+
+c. List all the publishers whose name starts with “N”:
+MATCH (publisher:Publisher)
+WHERE toLower(publisher.name) STARTS WITH 'n'
+RETURN DISTINCT publisher.name;
+
+d. List the names of people who have given a rating of (>=3) for a specific book:
+MATCH (:Book {title: 'Book1'})<-[:GAVE_RATING {stars: >=3}]-(reader:Reader)
+RETURN DISTINCT reader.name;
