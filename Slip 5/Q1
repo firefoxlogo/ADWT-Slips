@@ -1,0 +1,73 @@
+Q:9: Write a HTML code, which generate the following output
+[ Apply border, border radius tags ]
+
+                                     List of Persons
+Srno	 Person 	Name	Age 	Country
+1				
+2				
+3				
+Solution:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+    	table {
+        	border-collapse: collapse;
+        	width: 100%;
+        	border: 1px solid #ddd;
+        	border-radius: 8px;
+        	margin-top: 20px;
+    	}
+
+    	th, td {
+        	border: 1px solid #ddd;
+        	padding: 8px;
+        	text-align: left;
+    	}
+
+    	th {
+        	background-color: #f2f2f2;
+    	}
+	</style>
+	<title>List of Persons</title>
+</head>
+<body>
+
+	<h2>List of Persons</h2>
+
+	<table>
+    	<thead>
+        	<tr>
+            	<th>Srno</th>
+            	<th>Person Name</th>
+            	<th>Age</th>
+            	<th>Country</th>
+        	</tr>
+    	</thead>
+    	<tbody>
+        	<tr>
+            	<td>1</td>
+            	<td></td>
+            	<td></td>
+            	<td></td>
+        	</tr>
+        	<tr>
+            	<td>2</td>
+            	<td></td>
+            	<td></td>
+            	<td></td>
+        	</tr>
+        	<tr>
+            	<td>3</td>
+            	<td></td>
+            	<td></td>
+            	<td></td>
+        	</tr>
+        	<!-- Add more rows as needed -->
+    	</tbody>
+	</table>
+
+</body>
+</html>
