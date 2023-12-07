@@ -1,0 +1,52 @@
+Q:43: Create a web page to create 3D text. Apply all text effects like text shadow,
+text overflow, wordwrap etc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>3D Text Effect</title>
+
+	<style>
+    	body {
+        	background-color: #f0f0f0;
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        	height: 100vh;
+        	margin: 0;
+    	}
+
+    	.text-container {
+        	perspective: 800px;
+    	}
+
+    	h1 {
+        	font-size: 3em;
+        	color: #333;
+        	margin: 0;
+        	text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+        	transform: translateZ(0);
+        	white-space: nowrap;
+        	overflow: hidden;
+        	animation: slide-in 2s ease infinite;
+    	}
+
+    	@keyframes slide-in {
+        	0% {
+            	transform: translateX(-100%);
+        	}
+        	100% {
+            	transform: translateX(100%);
+        	}
+    	}
+	</style>
+</head>
+<body>
+
+	<div class="text-container">
+    	<h1>3D Text Effect</h1>
+	</div>
+
+</body>
+</html>
