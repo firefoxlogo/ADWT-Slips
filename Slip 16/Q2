@@ -1,0 +1,93 @@
+Q:32: Model the following food service industry information as a graph
+model, and answer the following queries using Cypher.
+Consider food service industries like ZOMATO, Swiggy around us.
+Popular restaurants are connected to these industries to increase sell. A
+person order food through this industry and get offers. A person give
+rate(1-5 stars) to company its facility/facilities. and can recommend this
+to his/her friends.
+4. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+5. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+6. Answer the Queries.
+a. Count no. of customers who place order on “1/1/2023” [3]
+b. List the names of customers whose name starts with S and
+place order using Swiggy [3]
+c. List the names of hotels with high rating (>=4).[4]
+d. List the most recommended hotels in....... area. [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Person
+■	Restaurant
+■	Order
+■	Company
+○	Relationships:
+■	(Person)-[:PLACED_ORDER]->(Order)-[:ORDERED_FROM]->(Restaurant)
+■	(Person)-[:RECOMMENDS]->(Company)
+■	(Company)-[:CONNECTED_TO]->(Restaurant)
+■	(Person)-[:GAVE_RATING]->(Company)
+2.	High-Level Graph Model:
+   	(Person)-[:PLACED_ORDER]->(Order)-[:ORDERED_FROM]->(Restaurant)
+             	\
+   	(Person)-[:RECOMMENDS]->(Company)-[:CONNECTED_TO]->(Restaurant)
+             	\
+   	(Person)-[:GAVE_RATING]->(Company)
+
+Creating Nodes and Relationships:
+// Create Persons
+CREATE (p1:Person {name: 'Person1'})
+CREATE (p2:Person {name: 'Person2'})
+
+// Create Companies
+CREATE (zomato:Company {name: 'Zomato'})
+CREATE (swiggy:Company {name: 'Swiggy'})
+
+// Connect Persons to Companies
+CREATE (p1)-[:RECOMMENDS]->(zomato)
+CREATE (p2)-[:RECOMMENDS]->(swiggy)
+
+// Create Restaurants
+CREATE (r1:Restaurant {name: 'Restaurant1', area: 'Area1', rating: 4.5})
+CREATE (r2:Restaurant {name: 'Restaurant2', area: 'Area2', rating: 3.8})
+
+// Connect Companies to Restaurants
+CREATE (zomato)-[:CONNECTED_TO]->(r1)
+CREATE (swiggy)-[:CONNECTED_TO]->(r2)
+
+// Create Orders
+CREATE (order1:Order {date: '1/1/2023'})
+CREATE (order2:Order {date: '1/1/2023'})
+CREATE (order3:Order {date: '2/1/2023'})
+
+// Connect Persons to Orders and Orders to Restaurants
+CREATE (p1)-[:PLACED_ORDER]->(order1)-[:ORDERED_FROM]->(r1)
+CREATE (p2)-[:PLACED_ORDER]->(order2)-[:ORDERED_FROM]->(r2)
+CREATE (p1)-[:PLACED_ORDER]->(order3)-[:ORDERED_FROM]->(r2)
+
+// Create Ratings
+CREATE (p1)-[:GAVE_RATING {stars: 5}]->(zomato)
+CREATE (p2)-[:GAVE_RATING {stars: 4}]->(swiggy)
+
+Queries:
+a. Count the number of customers who placed an order on “1/1/2023”:
+
+MATCH (p:Person)-[:PLACED_ORDER]->(o:Order {date: '1/1/2023'})
+RETURN COUNT(DISTINCT p) AS numberOfCustomers;
+
+b. List the names of customers whose name starts with "S" and placed an order using Swiggy:
+MATCH (p:Person)-[:PLACED_ORDER]->(:Order)-[:ORDERED_FROM]->(r:Restaurant)<-[:CONNECTED_TO]-(c:Company {name: 'Swiggy'})
+WHERE p.name STARTS WITH 'S'
+RETURN DISTINCT p.name;
+
+c. List the names of hotels with a high rating (>=4):
+MATCH (r:Restaurant)
+WHERE r.rating >= 4
+RETURN r.name;
+
+d. List the most recommended hotels in the "Area2" area:
+MATCH (p:Person)-[:RECOMMENDS]->(:Company)-[:CONNECTED_TO]->(r:Restaurant {area: 'Area2'})
+RETURN r.name, COUNT(p) AS recommendations
+ORDER BY recommendations DESC
+LIMIT 1;
