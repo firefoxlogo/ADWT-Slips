@@ -1,0 +1,51 @@
+Q:28: Model the following system as a graph model, and answer the queries using
+Cypher.
+Government provides various scholarships for students. A students apply for
+scholarship. Student can get benefits of more than one scholarship if satisfies
+the criteria. Student can recommend it for his friends or other family members
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, andvisualize
+your actual Graph model. [3]
+3. Answer the following Queries in Cypher:
+a. List the names of scholarship for OBC category.[3]
+b. Count no. of students who are benefitted by ____ scholarship in year
+2020-2021 [3]
+c. Update the income limit for _____scholarship. [4]
+d. List the most popular scholarship. [4]
+Solution
+Graph Model:
+●	Labels:
+○	Student
+○	Scholarship
+○	Friend (Relationship between students for recommendations)
+○	FamilyMember (Relationship between students and their family members)
+●	Properties:
+○	Student node has properties like name, category, year, etc.
+○	Scholarship node has properties like name, category, incomeLimit, etc.
+○	Relationships (APPLY_FOR, RECOMMEND, BENEFITTED_BY)
+	(Student)-[:APPLY_FOR]->(Scholarship)
+	(Student)-[:RECOMMEND]->(Student)
+	(Student)-[:RECOMMEND]->(FamilyMember)
+	(Student)-[:BENEFITTED_BY]->(Scholarship)
+
+Cypher Queries:
+List the names of scholarships for OBC category:
+MATCH (sch:Scholarship {category: 'OBC'})
+RETURN sch.name;
+
+Count the number of students benefitted by a specific scholarship in the year 2020-2021:
+MATCH (student:Student)-[:BENEFITTED_BY]->(sch:Scholarship {name: 'SpecificScholarship'})
+WHERE student.year = '2020-2021'
+RETURN COUNT(student) AS numberOfStudents;
+
+Update the income limit for a specific scholarship:
+MATCH (sch:Scholarship {name: 'SpecificScholarship'})
+SET sch.incomeLimit = 50000;
+
+List the most popular scholarship (the one with the highest number of beneficiaries):
+MATCH (sch:Scholarship)<-[:BENEFITTED_BY]-(student:Student)
+WITH sch, COUNT(student) AS numberOfBeneficiaries
+RETURN sch.name
+ORDER BY numberOfBeneficiaries DESC
+LIMIT 1;
