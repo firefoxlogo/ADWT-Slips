@@ -19,30 +19,31 @@ Collection: Customer
 ○	AccountOpenDate
 ○	Branch
 ○	Accounts (an array of account objects)
-{ "CustomerID": 1, "FirstName": "John", "LastName": "Doe", "AccountOpenDate": "2020-01-01", "Branch": "BranchA", "Accounts": [
+db.createCollection("Customer")
+db.Customer.insert([{ "CustomerID": 1, "FirstName": "John", "LastName": "Doe", "AccountOpenDate": "2020-01-01", "Branch": "BranchA", "Accounts": [
 	{ "AccountType": "Saving", "Balance": 5000 },
 	{ "AccountType": "Checking", "Balance": 3000 }
   ]
-}
+},
 { "CustomerID": 2, "FirstName": "Jane", "LastName": "Smith", "AccountOpenDate": "2020-01-01", "Branch": "BranchB", "Accounts": [
 	{ "AccountType": "Saving", "Balance": 7000 },
 	{ "AccountType": "Loan", "Balance": -2000 }
   ]
-}
+},
 { "CustomerID": 3, "FirstName": "Mike", "LastName": "Johnson", "AccountOpenDate": "2020-02-15", "Branch": "BranchA", "Accounts": [
 	{ "AccountType": "Saving", "Balance": 6000 }
   ]
-}
+},
 { "CustomerID": 4, "FirstName": "Emily", "LastName": "Brown", "AccountOpenDate": "2020-01-01", "Branch": "BranchC", "Accounts": [
 	{ "AccountType": "Checking", "Balance": 4000 },
 	{ "AccountType": "Loan", "Balance": -5000 }
   ]
-}
+},
 { "CustomerID": 5, "FirstName": "Alex", "LastName": "White", "AccountOpenDate": "2020-02-15", "Branch": "BranchB", "Accounts": [
 	{ "AccountType": "Saving", "Balance": 8000 },
 	{ "AccountType": "Checking", "Balance": 2000 }
   ]
-}
+}])
 
 Queries:
 a. List names of all customers whose first name starts with "S":
