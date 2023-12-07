@@ -22,33 +22,33 @@ Collection: Movies
 ○	ReleaseYear
 ○	Producers (array of producer names and their roles)
 ○	Actors (array of actor names and their roles)
-{ "MovieID": 1, "MovieName": "Action Hero", "Budget": 5000000, "ReleaseYear": 2022, "Producers": [{"Name": "John Doe", "Role": "Main Producer"}, {"Name": "Jane Smith", "Role": "Co-Producer"}], "Actors": [{"Name": "Akshay", "Role": "Lead"}, {"Name": "Priya", "Role": "Supporting"}] }
-{ "MovieID": 2, "MovieName": "Romantic Melody", "Budget": 7000000, "ReleaseYear": 2021, "Producers": [{"Name": "Mike Johnson", "Role": "Producer"}, {"Name": "Emily Brown", "Role": "Associate Producer"}], "Actors": [{"Name": "Akshay", "Role": "Supporting"}, {"Name": "Alex", "Role": "Lead"}] }
-{ "MovieID": 3, "MovieName": "Sci-Fi Adventure", "Budget": 9000000, "ReleaseYear": 2022, "Producers": [{"Name": "Raj Patel", "Role": "Main Producer"}, {"Name": "Katie Khan", "Role": "Co-Producer"}], "Actors": [{"Name": "Priya", "Role": "Lead"}, {"Name": "Mike", "Role": "Supporting"}] }
-{ "MovieID": 4, "MovieName": "Comedy Blast", "Budget": 6000000, "ReleaseYear": 2023, "Producers": [{"Name": "John Doe", "Role": "Producer"}], "Actors": [{"Name": "Akshay", "Role": "Cameo"}, {"Name": "Emily Brown", "Role": "Lead"}] }
-{ "MovieID": 5, "MovieName": "Drama Chronicles", "Budget": 8000000, "ReleaseYear": 2021, "Producers": [{"Name": "Jane Smith", "Role": "Main Producer"}, {"Name": "Alex White", "Role": "Co-Producer"}], "Actors": [{"Name": "Mike", "Role": "Lead"}, {"Name": "Priya", "Role": "Supporting"}] }
+db.Movie.insert([{ "MovieID": 1, "MovieName": "Action Hero", "Budget": 5000000, "ReleaseYear": 2022, "Producers": [{"Name": "John Doe", "Role": "Main Producer"}, {"Name": "Jane Smith", "Role": "Co-Producer"}], "Actors": [{"Name": "Akshay", "Role": "Lead"}, {"Name": "Priya", "Role": "Supporting"}] },
+{ "MovieID": 2, "MovieName": "Romantic Melody", "Budget": 7000000, "ReleaseYear": 2021, "Producers": [{"Name": "Mike Johnson", "Role": "Producer"}, {"Name": "Emily Brown", "Role": "Associate Producer"}], "Actors": [{"Name": "Akshay", "Role": "Supporting"}, {"Name": "Alex", "Role": "Lead"}] },
+{ "MovieID": 3, "MovieName": "Sci-Fi Adventure", "Budget": 9000000, "ReleaseYear": 2022, "Producers": [{"Name": "Raj Patel", "Role": "Main Producer"}, {"Name": "Katie Khan", "Role": "Co-Producer"}], "Actors": [{"Name": "Priya", "Role": "Lead"}, {"Name": "Mike", "Role": "Supporting"}] },
+{ "MovieID": 4, "MovieName": "Comedy Blast", "Budget": 6000000, "ReleaseYear": 2023, "Producers": [{"Name": "John Doe", "Role": "Producer"}], "Actors": [{"Name": "Akshay", "Role": "Cameo"}, {"Name": "Emily Brown", "Role": "Lead"}] },
+{ "MovieID": 5, "MovieName": "Drama Chronicles", "Budget": 8000000, "ReleaseYear": 2021, "Producers": [{"Name": "Jane Smith", "Role": "Main Producer"}, {"Name": "Alex White", "Role": "Co-Producer"}], "Actors": [{"Name": "Mike", "Role": "Lead"}, {"Name": "Priya", "Role": "Supporting"}] }])
 
 Collection: Producers
 ●	Attributes:
 ○	ProducerID (unique identifier)
 ○	ProducerName
 ○	ProducedMovies (array of movie names and their roles)
-{ "ProducerID": 1, "ProducerName": "John Doe", "ProducedMovies": [{"MovieName": "Action Hero", "Role": "Main Producer"}, {"MovieName": "Comedy Blast", "Role": "Producer"}] }
-{ "ProducerID": 2, "ProducerName": "Jane Smith", "ProducedMovies": [{"MovieName": "Action Hero", "Role": "Co-Producer"}, {"MovieName": "Drama Chronicles", "Role": "Main Producer"}] }
-{ "ProducerID": 3, "ProducerName": "Mike Johnson", "ProducedMovies": [{"MovieName": "Romantic Melody", "Role": "Producer"}, {"MovieName": "Sci-Fi Adventure", "Role": "Main Producer"}] }
-{ "ProducerID": 4, "ProducerName": "Emily Brown", "ProducedMovies": [{"MovieName": "Romantic Melody", "Role": "Associate Producer"}, {"MovieName": "Comedy Blast", "Role": "Lead Producer"}] }
-{ "ProducerID": 5, "ProducerName": "Raj Patel", "ProducedMovies": [{"MovieName": "Sci-Fi Adventure", "Role": "Main Producer"}] }
+db.Producer.insert([{ "ProducerID": 1, "ProducerName": "John Doe", "ProducedMovies": [{"MovieName": "Action Hero", "Role": "Main Producer"}, {"MovieName": "Comedy Blast", "Role": "Producer"}] },
+{ "ProducerID": 2, "ProducerName": "Jane Smith", "ProducedMovies": [{"MovieName": "Action Hero", "Role": "Co-Producer"}, {"MovieName": "Drama Chronicles", "Role": "Main Producer"}] },
+{ "ProducerID": 3, "ProducerName": "Mike Johnson", "ProducedMovies": [{"MovieName": "Romantic Melody", "Role": "Producer"}, {"MovieName": "Sci-Fi Adventure", "Role": "Main Producer"}] },
+{ "ProducerID": 4, "ProducerName": "Emily Brown", "ProducedMovies": [{"MovieName": "Romantic Melody", "Role": "Associate Producer"}, {"MovieName": "Comedy Blast", "Role": "Lead Producer"}] },
+{ "ProducerID": 5, "ProducerName": "Raj Patel", "ProducedMovies": [{"MovieName": "Sci-Fi Adventure", "Role": "Main Producer"}] }])
 
 Collection: Actors
 ●	Attributes:
 ○	ActorID (unique identifier)
 ○	ActorName
 ○	ActedMovies (array of movie names and their roles)
-{ "ActorID": 1, "ActorName": "Akshay", "ActedMovies": [{"MovieName": "Action Hero", "Role": "Lead"}, {"MovieName": "Romantic Melody", "Role": "Supporting"}, {"MovieName": "Comedy Blast", "Role": "Cameo"}] }
-{ "ActorID": 2, "ActorName": "Priya", "ActedMovies": [{"MovieName": "Action Hero", "Role": "Supporting"}, {"MovieName": "Sci-Fi Adventure", "Role": "Lead"}] }
-{ "ActorID": 3, "ActorName": "Mike", "ActedMovies": [{"MovieName": "Sci-Fi Adventure", "Role": "Supporting"}, {"MovieName": "Drama Chronicles", "Role": "Lead"}] }
-{ "ActorID": 4, "ActorName": "Alex", "ActedMovies": [{"MovieName": "Romantic Melody", "Role": "Lead"}] }
-{ "ActorID": 5, "ActorName": "Emily Brown", "ActedMovies": [{"MovieName": "Comedy Blast", "Role": "Lead"}] }
+db.Actor.insert([{ "ActorID": 1, "ActorName": "Akshay", "ActedMovies": [{"MovieName": "Action Hero", "Role": "Lead"}, {"MovieName": "Romantic Melody", "Role": "Supporting"}, {"MovieName": "Comedy Blast", "Role": "Cameo"}] },
+{ "ActorID": 2, "ActorName": "Priya", "ActedMovies": [{"MovieName": "Action Hero", "Role": "Supporting"}, {"MovieName": "Sci-Fi Adventure", "Role": "Lead"}] },
+{ "ActorID": 3, "ActorName": "Mike", "ActedMovies": [{"MovieName": "Sci-Fi Adventure", "Role": "Supporting"}, {"MovieName": "Drama Chronicles", "Role": "Lead"}] },
+{ "ActorID": 4, "ActorName": "Alex", "ActedMovies": [{"MovieName": "Romantic Melody", "Role": "Lead"}] },
+{ "ActorID": 5, "ActorName": "Emily Brown", "ActedMovies": [{"MovieName": "Comedy Blast", "Role": "Lead"}] }])
 
 Queries:
 a. List the names of movies with the highest budget:
