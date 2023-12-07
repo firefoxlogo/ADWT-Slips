@@ -1,0 +1,48 @@
+Q:15:Create a button with different style (Secondary, Primary, Success, Error, Info,
+Warning, Danger) using BootStrap
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Add Bootstrap CSS link -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<title>Bootstrap Buttons</title>
+</head>
+<body>
+
+	<div class="container mt-5">
+
+    	<h2>Bootstrap Buttons</h2>
+
+    	<!-- Secondary Button -->
+    	<button type="button" class="btn btn-secondary mr-2">Secondary</button>
+
+    	<!-- Primary Button -->
+    	<button type="button" class="btn btn-primary mr-2">Primary</button>
+
+    	<!-- Success Button -->
+    	<button type="button" class="btn btn-success mr-2">Success</button>
+
+    	<!-- Danger Button -->
+    	<button type="button" class="btn btn-danger mr-2">Danger</button>
+
+    	<!-- Info Button -->
+    	<button type="button" class="btn btn-info mr-2">Info</button>
+
+    	<!-- Warning Button -->
+    	<button type="button" class="btn btn-warning mr-2">Warning</button>
+
+    	<!-- Error Button (Custom style) -->
+    	<button type="button" class="btn btn-outline-danger">Error</button>
+
+	</div>
+
+	<!-- Add Bootstrap JS and Popper.js scripts (required for Bootstrap) -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
