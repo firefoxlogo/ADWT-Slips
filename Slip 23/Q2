@@ -1,0 +1,82 @@
+
+Q:46: Model the following Automobile information system as a graph model,and
+answer the following queries using Cypher.
+Consider an Automobile industry manufacturing different types of vehicles
+like Two- Wheeler, Four-Wheeler, etc. A customer can buyone or more types
+of vehicle. A person can recommend or rate a vehicletype.
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the following Queries:
+a. List the characteristics of four wheeler types. [3]
+b. List the name of customers who bought a two wheeler vehicle. [3]
+c. List the customers who bought more than one type of vehicle. [4]
+d. List the most recommended vehicle type. [4]
+
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	VehicleType (Two-Wheeler, Four-Wheeler, etc.)
+■	Customer
+○	Relationships:
+■	(Customer)-[:BOUGHT]->(VehicleType)
+■	(Customer)-[:RECOMMEND]->(VehicleType)
+■	(Customer)-[:RATE]->(VehicleType)
+2.	High-Level Graph Model:
+(Customer)-[:BOUGHT]->(VehicleType)
+(Customer)-[:RECOMMEND]->(VehicleType)
+(Customer)-[:RATE]->(VehicleType)
+
+Creating Nodes and Relationships:
+// Create Vehicle Types
+CREATE (:VehicleType {name: 'Two-Wheeler', characteristics: '...'})
+CREATE (:VehicleType {name: 'Four-Wheeler', characteristics: '...'})
+// Add more vehicle types as needed
+
+// Create Customers
+CREATE (:Customer {name: 'Customer1'})
+CREATE (:Customer {name: 'Customer2'})
+// Add more customers as needed
+
+// Create Relationships
+MATCH (c:Customer), (vt:VehicleType)
+WHERE vt.name = 'Two-Wheeler'
+CREATE (c)-[:BOUGHT]->(vt)
+
+MATCH (c:Customer), (vt:VehicleType)
+WHERE vt.name = 'Four-Wheeler'
+CREATE (c)-[:BOUGHT]->(vt)
+
+MATCH (c:Customer), (vt:VehicleType)
+WHERE vt.name = 'Two-Wheeler' OR vt.name = 'Four-Wheeler'
+CREATE (c)-[:RECOMMEND]->(vt)
+
+MATCH (c:Customer), (vt:VehicleType)
+WHERE vt.name = 'Two-Wheeler'
+CREATE (c)-[:RATE]->(vt);
+
+// Add more relationships as needed
+
+Queries:
+a. List the characteristics of four-wheeler types:
+MATCH (vt:VehicleType {name: 'Four-Wheeler'})
+RETURN vt.characteristics;
+
+b. List the name of customers who bought a two-wheeler vehicle:
+MATCH (c:Customer)-[:BOUGHT]->(vt:VehicleType {name: 'Two-Wheeler'})
+RETURN c.name;
+
+c. List the customers who bought more than one type of vehicle:
+MATCH (c:Customer)-[:BOUGHT]->(vt:VehicleType)
+WITH c, COUNT(DISTINCT vt) AS vehicleCount
+WHERE vehicleCount > 1
+RETURN c.name;
+
+d. List the most recommended vehicle type:
+
+MATCH (c:Customer)-[:RECOMMEND]->(vt:VehicleType)
+RETURN vt.name, COUNT(c) AS recommendations
+ORDER BY recommendations DESC
+LIMIT 1;
