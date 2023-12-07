@@ -19,30 +19,30 @@ Collection: Customer
 ○	Address
 ○	Loans (an array of loan objects)
 ●	Example Documents:
-{ "CustomerID": 1, "Name": "John Doe", "Address": "123 Main St, CityA", "Loans": [
+db.Customer.insert([{ "CustomerID": 1, "Name": "John Doe", "Address": "123 Main St, CityA", "Loans": [
 	{ "LoanType": "Personal Loan", "LoanAmount": 50000, "City": "CityA" },
 	{ "LoanType": "Home Loan", "LoanAmount": 200000, "City": "CityB" }
   ]
-}
+},
 { "CustomerID": 2, "Name": "Jane Smith", "Address": "456 Oak St, CityB", "Loans": [
 	{ "LoanType": "Car Loan", "LoanAmount": 70000, "City": "CityA" },
 	{ "LoanType": "Education Loan", "LoanAmount": 150000, "City": "CityB" }
   ]
-}
+},
 { "CustomerID": 3, "Name": "Mike Johnson", "Address": "789 Pine St, CityA", "Loans": [
 	{ "LoanType": "Home Loan", "LoanAmount": 250000, "City": "CityA" }
   ]
-}
+},
 { "CustomerID": 4, "Name": "Emily Brown", "Address": "101 Cedar St, CityC", "Loans": [
 	{ "LoanType": "Personal Loan", "LoanAmount": 80000, "City": "CityC" },
 	{ "LoanType": "Education Loan", "LoanAmount": 120000, "City": "CityA" }
   ]
-}
+},
 { "CustomerID": 5, "Name": "Alex White", "Address": "202 Elm St, CityB", "Loans": [
 	{ "LoanType": "Car Loan", "LoanAmount": 60000, "City": "CityB" },
 	{ "LoanType": "Home Loan", "LoanAmount": 180000, "City": "CityA" }
   ]
-}
+}])
 
 Queries:
 a. List all customers whose name starts with 'D' character:
