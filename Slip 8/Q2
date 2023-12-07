@@ -1,0 +1,68 @@
+Q:16: 1. Model the following inventory information as a document database.
+The inventory keeps track of various items. The items are tagged in various
+categories. Items may be kept in various warehouses and each warehouse
+keeps track of the quantity of the item.
+2. Assume appropriate attributes and collections as per the query
+requirements [3]
+3. Insert at least 5 documents in each collection. [3]
+4. Answer the following Queries.
+a. List all the items qty is greater than 300 [3]
+b. List all items which have tags less than 5 [3]
+c. List all items having status equal to “B” or having quantity less than
+50 and height of the product should be greater than 8 [4]
+d. Find all warehouse that keeps item “Planner” and having in
+stock quantity less than 20 [4]
+Solution
+Collection: Item
+●	Attributes:
+○	ItemID (unique identifier)
+○	Name
+○	Tags (an array of tag strings)
+○	Quantity
+○	Height
+○	Status
+{ "ItemID": 1, "Name": "Laptop", "Tags": ["Electronics", "Gadgets"], "Quantity": 400, "Height": 10, "Status": "A" }
+{ "ItemID": 2, "Name": "Chair", "Tags": ["Furniture"], "Quantity": 150, "Height": 8, "Status": "B" }
+{ "ItemID": 3, "Name": "Planner", "Tags": ["Office Supplies", "Stationery"], "Quantity": 15, "Height": 9, "Status": "C" }
+{ "ItemID": 4, "Name": "Camera", "Tags": ["Photography", "Electronics"], "Quantity": 250, "Height": 6, "Status": "B" }
+{ "ItemID": 5, "Name": "Tablet", "Tags": ["Electronics", "Gadgets"], "Quantity": 500, "Height": 7, "Status": "A" }
+
+Collection: Warehouse
+●	Attributes:
+○	WarehouseID (unique identifier)
+○	Name
+○	ItemsInStock (an array of item objects with Quantity attribute)
+{ "WarehouseID": 1, "Name": "Warehouse A", "ItemsInStock": [
+	{ "ItemID": 1, "Quantity": 200 },
+	{ "ItemID": 2, "Quantity": 50 },
+	{ "ItemID": 3, "Quantity": 10 },
+	{ "ItemID": 4, "Quantity": 100 },
+	{ "ItemID": 5, "Quantity": 300 }
+  ]
+}
+{ "WarehouseID": 2, "Name": "Warehouse B", "ItemsInStock": [
+	{ "ItemID": 1, "Quantity": 200 },
+	{ "ItemID": 2, "Quantity": 100 },
+	{ "ItemID": 3, "Quantity": 5 },
+	{ "ItemID": 4, "Quantity": 150 },
+	{ "ItemID": 5, "Quantity": 200 }
+  ]
+}
+
+Queries:
+a. List all the items where quantity is greater than 300:
+db.Item.find({ "Quantity": { $gt: 300 } })
+
+b. List all items which have tags less than 5:
+db.Item.find({ "Tags": { $size: { $lt: 5 } } })
+
+c. List all items having status equal to "B" or having quantity less than 50 and height of the product should be greater than 8:
+db.Item.find({
+  $or: [
+	{ "Status": "B" },
+	{ $and: [{ "Quantity": { $lt: 50 } }, { "Height": { $gt: 8 } }] }
+  ]
+})
+
+d. Find all warehouses that keep item "Planner" and having in-stock quantity less than 20:
+db.Warehouse.find({ "ItemsInStock": { $elemMatch: { "ItemID": 3, "Quantity": { $lt: 20 } } } })
