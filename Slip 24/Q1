@@ -1,0 +1,79 @@
+Q:47: Model the following Library information system as a graph model,and answer
+the following queries using Cypher.
+Consider a library information system having different types of books like text,
+reference, bibliography etc. A student can buy one or more types of book. A
+student can recommend or rate a book according to its type.
+1. Identify the labels and relationships, along with their properties, and
+draw a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the following Queries :
+a. List the books of type “text” [3]
+b. List the name of student who bought a text and reference types
+books.[3]
+c. List the most recommended book type. [4]
+d. List the student who buy the more than one type of book [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	BookType (Text, Reference, Bibliography, etc.)
+■	Student
+○	Relationships:
+■	(Student)-[:BOUGHT]->(BookType)
+■	(Student)-[:RECOMMEND]->(BookType)
+■	(Student)-[:RATE]->(BookType)
+2.	High-Level Graph Model
+(Student)-[:BOUGHT]->(BookType)
+(Student)-[:RECOMMEND]->(BookType)
+(Student)-[:RATE]->(BookType)
+
+Creating Nodes and Relationships:
+// Create Book Types
+CREATE (:BookType {name: 'Text'})
+CREATE (:BookType {name: 'Reference'})
+CREATE (:BookType {name: 'Bibliography'})
+// Add more book types as needed
+
+// Create Students
+CREATE (:Student {name: 'Student1'})
+CREATE (:Student {name: 'Student2'})
+// Add more students as needed
+
+// Create Relationships
+MATCH (s:Student), (bt:BookType {name: 'Text'})
+CREATE (s)-[:BOUGHT]->(bt)
+
+MATCH (s:Student), (bt:BookType {name: 'Reference'})
+CREATE (s)-[:BOUGHT]->(bt)
+
+MATCH (s:Student), (bt:BookType)
+WHERE bt.name IN ['Text', 'Reference']
+CREATE (s)-[:RECOMMEND]->(bt)
+
+MATCH (s:Student), (bt:BookType {name: 'Text'})
+CREATE (s)-[:RATE]->(bt);
+
+// Add more relationships as needed
+
+Queries:
+a. List the books of type "Text":
+MATCH (bt:BookType {name: 'Text'})
+RETURN bt.name;
+
+b. List the name of students who bought text and reference types books:
+MATCH (s:Student)-[:BOUGHT]->(bt:BookType)
+WHERE bt.name IN ['Text', 'Reference']
+RETURN s.name;
+
+c. List the most recommended book type:
+MATCH (s:Student)-[:RECOMMEND]->(bt:BookType)
+RETURN bt.name, COUNT(s) AS recommendations
+ORDER BY recommendations DESC
+LIMIT 1;
+
+d. List the students who buy more than one type of book:
+MATCH (s:Student)-[:BOUGHT]->(bt:BookType)
+WITH s, COUNT(DISTINCT bt) AS bookTypesCount
+WHERE bookTypesCount > 1
+RETURN s.name;
