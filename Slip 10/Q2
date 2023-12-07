@@ -18,11 +18,11 @@ Collection: Product
 ○	Brand
 ○	WarrantyPeriod
 ○	Rating
-{ "ProductID": 1, "Name": "Laptop", "Brand": "HP", "WarrantyPeriod": "1 year", "Rating": 4.5 }
-{ "ProductID": 2, "Name": "Smartphone", "Brand": "Samsung", "WarrantyPeriod": "2 years", "Rating": 4.2 }
-{ "ProductID": 3, "Name": "Headphones", "Brand": "Sony", "WarrantyPeriod": "1 year", "Rating": 4.8 }
-{ "ProductID": 4, "Name": "Camera", "Brand": "Canon", "WarrantyPeriod": "1 year", "Rating": 4.0 }
-{ "ProductID": 5, "Name": "Smartwatch", "Brand": "Apple", "WarrantyPeriod": "2 years", "Rating": 4.7 }
+db.Product.insert([{ "ProductID": 1, "Name": "Laptop", "Brand": "HP", "WarrantyPeriod": "1 year", "Rating": 4.5 },
+{ "ProductID": 2, "Name": "Smartphone", "Brand": "Samsung", "WarrantyPeriod": "2 years", "Rating": 4.2 },
+{ "ProductID": 3, "Name": "Headphones", "Brand": "Sony", "WarrantyPeriod": "1 year", "Rating": 4.8 },
+{ "ProductID": 4, "Name": "Camera", "Brand": "Canon", "WarrantyPeriod": "1 year", "Rating": 4.0 },
+{ "ProductID": 5, "Name": "Smartwatch", "Brand": "Apple", "WarrantyPeriod": "2 years", "Rating": 4.7 }])
 
 Collection: Customer
 ●	Attributes:
@@ -31,11 +31,12 @@ Collection: Customer
 ○	City
 ○	PurchaseDate
 ○	BillAmount
-{ "CustomerID": 1, "Name": "John Doe", "City": "CityA", "PurchaseDate": "15/08/2023", "BillAmount": 60000 }
-{ "CustomerID": 2, "Name": "Jane Smith", "City": "CityB", "PurchaseDate": "15/08/2023", "BillAmount": 75000 }
-{ "CustomerID": 3, "Name": "Mike Johnson", "City": "CityA", "PurchaseDate": "16/08/2023", "BillAmount": 50000 }
-{ "CustomerID": 4, "Name": "Emily Brown", "City": "CityC", "PurchaseDate": "15/08/2023", "BillAmount": 90000 }
-{ "CustomerID": 5, "Name": "Alex White", "City": "CityB", "PurchaseDate": "17/08/2023", "BillAmount": 80000 }
+
+db.Customer.insert([{ "CustomerID": 1, "Name": "John Doe", "City": "CityA", "PurchaseDate": "15/08/2023", "BillAmount": 60000 },
+{ "CustomerID": 2, "Name": "Jane Smith", "City": "CityB", "PurchaseDate": "15/08/2023", "BillAmount": 75000 },
+{ "CustomerID": 3, "Name": "Mike Johnson", "City": "CityA", "PurchaseDate": "16/08/2023", "BillAmount": 50000 },
+{ "CustomerID": 4, "Name": "Emily Brown", "City": "CityC", "PurchaseDate": "15/08/2023", "BillAmount": 90000 },
+{ "CustomerID": 5, "Name": "Alex White", "City": "CityB", "PurchaseDate": "17/08/2023", "BillAmount": 80000 }])
 
 Queries:
 a. List the names of products whose warranty period is one year:
