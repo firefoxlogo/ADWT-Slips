@@ -1,0 +1,84 @@
+Q:49: Model the following University information system as a graph model, and
+answer the following queries using Cypher.
+University has various departments like Physics, Geography, Computer etc.
+Each department conducts various courses and a course may be conducted by
+multiple departments. Every course may have recommendations provided by
+people.
+1. Identify the labels and relationships, along with their properties, anddraw
+a high-level Graph model. [3]
+2. Create nodes and relationships, along with their properties, and
+visualize your actual Graph model. [3]
+3. Answer the following Queries :
+a. List the details of all the departments in the university. [3]
+b. List the names of the courses provided by Physics department. [3]
+c. List the most recommended course in Geography department. [4]
+d. List the names of common courses across Mathematics and
+computer department. [4]
+Solution
+Graph Model:
+1.	Labels and Relationships:
+○	Labels:
+■	Department
+■	Course
+■	Person (for recommendations)
+○	Relationships:
+■	(Department)-[:OFFERS]->(Course)
+■	(Course)-[:RECOMMENDED_BY]->(Person)
+2.	High-Level Graph Model:
+(Department)-[:OFFERS]->(Course)
+(Course)-[:RECOMMENDED_BY]->(Person)
+
+Creating Nodes and Relationships:
+// Create Departments
+CREATE (:Department {name: 'Physics'})
+CREATE (:Department {name: 'Geography'})
+CREATE (:Department {name: 'Computer'})
+// Add more departments as needed
+
+// Create Courses
+CREATE (:Course {name: 'Physics Course A'})
+CREATE (:Course {name: 'Physics Course B'})
+CREATE (:Course {name: 'Geography Course X'})
+CREATE (:Course {name: 'Computer Course 101'})
+// Add more courses as needed
+
+// Create Relationships
+MATCH (d:Department {name: 'Physics'}), (c:Course)
+WHERE c.name IN ['Physics Course A', 'Physics Course B']
+CREATE (d)-[:OFFERS]->(c)
+
+MATCH (d:Department {name: 'Geography'}), (c:Course {name: 'Geography Course X'})
+CREATE (d)-[:OFFERS]->(c)
+
+MATCH (d:Department {name: 'Computer'}), (c:Course {name: 'Computer Course 101'})
+CREATE (d)-[:OFFERS]->(c)
+
+// Add more relationships as needed
+
+// Create Recommendations
+MATCH (c:Course), (p:Person)
+WHERE c.name IN ['Physics Course A', 'Geography Course X']
+CREATE (c)-[:RECOMMENDED_BY]->(p);
+
+// Add more recommendations as needed
+
+Queries:
+a. List the details of all the departments in the university:
+MATCH (d:Department)
+RETURN d;
+
+b. List the names of the courses provided by the Physics department:
+MATCH (d:Department {name: 'Physics'})-[:OFFERS]->(c:Course)
+RETURN c.name;
+
+c. List the most recommended course in the Geography department:
+MATCH (d:Department {name: 'Geography'})-[:OFFERS]->(c:Course)-[:RECOMMENDED_BY]->(p:Person)
+RETURN c.name, COUNT(p) AS recommendations
+ORDER BY recommendations DESC
+LIMIT 1;
+
+d. List the names of common courses across Mathematics and Computer department:
+MATCH (math:Department {name: 'Mathematics'})-[:OFFERS]->(mathCourse:Course),
+  	(comp:Department {name: 'Computer'})-[:OFFERS]->(compCourse:Course)
+WHERE mathCourse.name = compCourse.name
+RETURN mathCourse.name;
