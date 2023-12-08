@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><h1>Date And Time</h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Input Types Example</title>
+
+</head>
+<body>
+
+
+<form>
+    <label for="dateInput">Date:</label>
+    <input type="date" id="dateInput" name="dateInput" required><br>
+
+    <label for="datetimeInput">Datetime:</label>
+    <input type="datetime" id="datetimeInput" name="datetimeInput" required><br>
+
+    <label for="datetimeLocalInput">Datetime-local:</label>
+    <input type="datetime-local" id="datetimeLocalInput" name="datetimeLocalInput" required><br>
+
+    <label for="monthInput">Month:</label>
+    <input type="month" id="monthInput" name="monthInput" required><br>
+
+    <label for="timeInput">Time:</label>
+    <input type="time" id="timeInput" name="timeInput" required><br>
+
+    <label for="weekInput">Week:</label>
+    <input type="week" id="weekInput" name="weekInput" required><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
